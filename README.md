@@ -23,7 +23,7 @@ We are a group of University of Oregon students making this game for CIS 410
 and as a passion project.
 
 ## Product Owner: Adam Case
-![Product Owner: Adam Case](/Assets/Images/Team/adamcase.jpg "Adam Case")]
+![Product Owner: Adam Case](/Assets/Images/Team/adamcase.jpg "Adam Case")
 
 I came to game development from my own experiences as a gamer. I am excited to
 work on this game as a first game developed by me and the team.
