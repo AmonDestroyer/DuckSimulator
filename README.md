@@ -5,7 +5,7 @@ shooter-looter and gain new abilities and weapons to protect your raft.
 
 ## Play the Game
 You can play this game without downloading and installing anything!
-Duck Simulator can be played [<placeholder-link>](https://www.google.com/).
+Duck Simulator can be played [placeholder-link](https://www.google.com/).
 
 ## Story
 Much of life is simple as a duck, an omnivorous diet keeping you healthy.
@@ -29,7 +29,7 @@ I came to game development from my own experiences as a gamer. I am excited to
 work on this game as a first game developed by me and the team.
 
 ## Asset Manager: Alder French
-<personal-statement>
+*personal-statement*
 
 ## Gameplay Designer: Jay Taylor
-<personal-statement>
+*personal-statement*
