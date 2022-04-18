@@ -5,7 +5,7 @@ shooter-looter and gain new abilities and weapons to protect your raft.
 
 ## Play the Game
 You can play this game without downloading and installing anything!
-Duck Simulator can be played [<placeholder-link>](https://google.com).
+Duck Simulator can be played [<placeholder-link>](https://www.google.com/).
 
 ## Story
 Much of life is simple as a duck, an omnivorous diet keeping you healthy.
