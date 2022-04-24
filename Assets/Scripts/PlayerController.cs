@@ -7,9 +7,11 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 0.2f;
     public float height = 10.0f;
+    public float gravityStrength = -1.0f;
     public int jumpNum = 2;
     public bool debug = false;
     public PlayerInput playerInput;
+    
 
     private Rigidbody player;
     private Vector3 movement;
@@ -17,10 +19,12 @@ public class PlayerController : MonoBehaviour
     private float movementY;
     private bool onGround;
     private int jumpCurrent;
+    private Vector3 gravStr;
 
     // Start is called before the first frame update
     void Start()
     {
+        gravStr = new Vector3(0, gravityStrength, 0);
         player = GetComponent<Rigidbody>();
         onGround = true;
         jumpCurrent = 0;
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Physics.gravity = gravStr;
         player.MovePosition(player.position + movement * speed);
     }
 

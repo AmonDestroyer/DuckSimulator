@@ -714,7 +714,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.2
   height: 10
-  jumpNum: 2
+  gravityStrength: -25
+  jumpNum: 4
   debug: 0
   playerInput: {fileID: 0}
 --- !u!114 &1662413035
