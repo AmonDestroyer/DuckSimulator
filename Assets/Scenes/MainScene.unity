@@ -833,8 +833,9 @@ MonoBehaviour:
   height: 10
   gravityStrength: -25
   jumpNum: 4
+  glideMulti: 0.5
   debug: 0
-  playerInput: {fileID: 0}
+  playerInput: {fileID: 1662413035}
 --- !u!114 &1662413035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,7 +928,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0391197, y: 1}
+    m_SensorSize: {x: 1.3168939, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
