@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float height = 10.0f;
     public float gravityStrength = -1.0f; // GRAVITY IS CURRENTLY UNIVERSAL; BE CAREFUL
     public int jumpNum = 2;
-    public float glideMulti = 0.5f;
+    public float glideMulti = 0.1f;
     public bool debug = false;
     public PlayerInput playerInput;
     
@@ -84,6 +84,11 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
+        jumpAction.started += context => {
+            if(onGround == false && jumpCurrent == jumpNum) {
+                GlideAction();
+            }
+        };
         jumpAction.performed += context => {
             if (context.interaction is HoldInteraction) {
                 if(onGround == false && isGlide == false) {
@@ -97,6 +102,9 @@ public class PlayerController : MonoBehaviour
                     JumpAction();
                 }
             }
+        };
+        jumpAction.canceled += context => {
+            isGlide = false;
         };
 
     }
