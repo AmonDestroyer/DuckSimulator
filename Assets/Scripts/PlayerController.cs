@@ -7,8 +7,10 @@ using UnityEngine.InputSystem.Interactions;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0.2f;
+    public float sprintSpeed = 0.4f;
+    public float crouchSpeed = 0.1f;
     public float height = 10.0f;
-    public float gravityStrength = -1.0f; // GRAVITY IS CURRENTLY UNIVERSAL; BE CAREFUL
+    public float gravityStrength = -25.0f; // GRAVITY IS CURRENTLY UNIVERSAL; BE CAREFUL
     public int jumpNum = 2;
     public float glideMulti = 0.1f;
     public bool debug = false;
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     private float movementX;
     private float movementY;
+    private bool isSprint;
+    private bool isCrouch;
     // jump variables
     private bool onGround;
     private bool isGlide;
@@ -27,19 +31,26 @@ public class PlayerController : MonoBehaviour
     private float gravOpposite;
     private Vector3 gravStr;
     private InputAction jumpAction;
+    private InputAction sprintAction;
+    private InputAction crouchAction;
+    
 
 
     // Start is called before the first frame update
     void Awake()
     {
         jumpAction = playerInput.currentActionMap["Jump"];
-        OnGroundTouch();
+        sprintAction = playerInput.currentActionMap["Sprint"];
+        crouchAction = playerInput.currentActionMap["Crouch"];
+        player = GetComponent<Rigidbody>();
+        
     }
 
     void Start()
     {
         gravStr = new Vector3(0, gravityStrength, 0);
-        player = GetComponent<Rigidbody>();
+        OnGroundTouch();
+        SetDefaultMovement();
     }
 
     void OnMove(InputValue movementValue)
@@ -52,6 +63,15 @@ public class PlayerController : MonoBehaviour
         movement = new Vector3(movementX, 0.0f, movementY);
 
     }
+
+    private void SetDefaultMovement()
+    {
+        // Resets all movement factors on player
+        player.velocity = Vector3.zero;
+        isSprint = false;
+        isCrouch = false;
+    }
+    // JUMP functions
 
     private void OnGroundTouch()
     {
@@ -73,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
     void GlideAction()
     {
+        // what players do when gliding
         isGlide = true; // for update usage
         jumpCurrent = jumpNum; // no more jumping while gliding
         // stops vertical acceleration
@@ -84,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
+        // if already in the air and out of jumps, glide instantly
         jumpAction.started += context => {
             if(onGround == false && jumpCurrent == jumpNum) {
                 GlideAction();
@@ -91,6 +113,7 @@ public class PlayerController : MonoBehaviour
         };
         jumpAction.performed += context => {
             if (context.interaction is HoldInteraction) {
+                // if player holds jump, glide starts; no more jumps allowed!
                 if(onGround == false && isGlide == false) {
                     GlideAction();
                     if(debug)
@@ -99,28 +122,64 @@ public class PlayerController : MonoBehaviour
             }
             else if (context.interaction is PressInteraction) {
                 if(onGround == true || jumpCurrent < jumpNum) {
+                    // if player taps jump, and has jumps left, jump!
                     JumpAction();
                 }
             }
         };
         jumpAction.canceled += context => {
+            // if player lets go of jump, glide stops
             isGlide = false;
         };
 
     }
+    // END JUMP functions
 
+    // SPRINT functions
+    void OnSprint()
+    {
+        sprintAction.started += context => {
+            isSprint = true;
+        };
+
+        sprintAction.canceled += context => {
+            isSprint = false;
+        };
+    }
+
+    // CROUCH functions
+    void OnCrouch()
+    {
+        crouchAction.started += context => {
+            isCrouch = true;
+        };
+
+        crouchAction.canceled += context => {
+            isCrouch = false;
+        };
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         Physics.gravity = gravStr;
         if(isGlide == true) {
+            // for glide; might put elsewhere later on
             gravOpposite =  (((player.velocity.y) * (gravityStrength * player.mass))  / ((gravityStrength) * glideMulti)) * -1.0f;
             Vector3 glide = new Vector3(0.0f, gravOpposite, 0.0f);
             player.AddForce(glide, ForceMode.Force);
         }
-
-        player.MovePosition(player.position + movement * speed);
-        
+        if(isSprint == true)
+        {
+            player.MovePosition(player.position + movement * sprintSpeed);
+        }
+        else if(isCrouch == true)
+        {
+            player.MovePosition(player.position + movement * crouchSpeed);
+        }
+        else
+        {
+            player.MovePosition(player.position + movement * speed);
+        }
     }
 
     void OnCollisionEnter(Collision other) {
