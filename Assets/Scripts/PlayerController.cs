@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
 
     private Rigidbody player;
+    private Animator m_Animator;
     // movement variables
     private Vector3 movement;
     private float movementX, movementY;
@@ -41,7 +42,8 @@ public class PlayerController : MonoBehaviour
         jumpAction = playerInput.currentActionMap["Jump"];
         sprintAction = playerInput.currentActionMap["Sprint"];
         crouchAction = playerInput.currentActionMap["Crouch"];
-        player = GetComponent<Rigidbody>();;
+        player = GetComponent<Rigidbody>();
+        m_Animator = GetComponentInChildren(typeof(Animator)) as Animator;
     }
 
     void Start()
@@ -138,10 +140,14 @@ public class PlayerController : MonoBehaviour
     {
         sprintAction.started += context => {
             isSprint = true;
+            m_Animator.SetBool("Walk", false);
+            m_Animator.SetBool("Run", true);
         };
 
         sprintAction.canceled += context => {
             isSprint = false;
+            m_Animator.SetBool("Walk", true);
+            m_Animator.SetBool("Run", false);
         };
     }
 
@@ -179,6 +185,25 @@ public class PlayerController : MonoBehaviour
         else
         {
             player.MovePosition(player.position + movement * walkSpeed);
+        }
+        // animation components (messy rn and impromptu)
+        bool moving = (movementY > 0) || (movementX > 0);
+        if(moving) 
+        {
+            if(isSprint == true) {
+                m_Animator.SetBool("Walk", !moving);
+                m_Animator.SetBool("Run", moving);
+            } 
+            else 
+            {
+                m_Animator.SetBool("Walk", moving);
+                m_Animator.SetBool("Run", !moving);
+            }
+        }
+        else
+        {
+            m_Animator.SetBool("Walk", moving);
+            m_Animator.SetBool("Run", moving);
         }
     }
 
