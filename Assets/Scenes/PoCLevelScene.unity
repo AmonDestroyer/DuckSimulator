@@ -129,7 +129,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1782
+  m_Name: pb_Mesh-2026
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1402,7 +1402,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-2008
+  m_Name: pb_Mesh-2322
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6270,7 +6270,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25114
+  m_Name: pb_Mesh25360
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8820,7 +8820,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.4992272, y: 1}
+    m_SensorSize: {x: 1.6117647, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -13237,6 +13237,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7195390855630895618, guid: 09f0161acc2099f458758a954651a26f, type: 3}
+      propertyPath: jumpHeight
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7195390855630895620, guid: 09f0161acc2099f458758a954651a26f, type: 3}
       propertyPath: camera
       value: 
@@ -16102,8 +16106,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897223470}
   m_LocalRotation: {x: 0.00000003945908, y: 0.00000003945908, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 117.10655, y: 15.835119, z: 92.496284}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 117.10655, y: 17.6, z: 92.496284}
+  m_LocalScale: {x: 1.3496608, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481178117}
