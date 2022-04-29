@@ -5,7 +5,14 @@ shooter-looter and gain new abilities and weapons to protect your raft.
 
 ## Play the Game
 You can play this game without downloading and installing anything!
-Duck Simulator can be played [placeholder-link](https://www.google.com/).
+Duck Simulator can be played on it's various builds below. This shows our
+progress as we built out the game.
+
+### Builds
+| Build |
+| :-------: |
+|[Proof of Concept](https://play.unity.com/mg/other/duck-simulator-poc)|
+
 
 ## Story
 Much of life is simple as a duck, an omnivorous diet keeping you healthy.
