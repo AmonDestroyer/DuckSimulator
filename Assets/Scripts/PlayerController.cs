@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float glideMulti = 0.1f;
     public bool debug = false;
     public PlayerInput playerInput;
+    public GameObject meleeScope;
 
     private Rigidbody player;
     private Animator m_Animator;
@@ -33,8 +34,9 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
     private InputAction sprintAction;
     private InputAction crouchAction;
-
-
+    private PlayerShootObserver m_PlayerShootObserver;
+    private MeleeObserver m_PlayerMeleeObserver;
+    private MeleeScope m_PlayerMeleeScope;
 
     // Start is called before the first frame update
     void Awake()
@@ -44,6 +46,19 @@ public class PlayerController : MonoBehaviour
         crouchAction = playerInput.currentActionMap["Crouch"];
         player = GetComponent<Rigidbody>();
         m_Animator = GetComponentInChildren(typeof(Animator)) as Animator;
+
+        m_PlayerShootObserver = new PlayerShootObserver();
+        m_PlayerShootObserver.targetRange = 25.0f;
+        m_PlayerShootObserver.targetTag = "Enemy";
+        m_PlayerShootObserver.sourceTransform = GetComponent<Transform>();
+        
+        m_PlayerMeleeScope = meleeScope.GetComponentInChildren<MeleeScope>(); 
+        m_PlayerMeleeObserver = new MeleeObserver();
+        m_PlayerMeleeObserver.targetRange = 5.0f;
+        m_PlayerMeleeObserver.targetTag = "Enemy";
+        m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
+
+        Debug.Log($"{m_PlayerShootObserver.targetTag}, {m_PlayerShootObserver.targetRange}");
     }
 
     void Start()
@@ -60,8 +75,8 @@ public class PlayerController : MonoBehaviour
         Vector2 movementVector = movementValue.Get<Vector2>();
         movementX = movementVector.x;
         movementY = movementVector.y;
-        if (debug)
-            Debug.Log($"Input: ({movementX},{movementY})");
+        //if (debug)
+            //Debug.Log($"Input: ({movementX},{movementY})");
     }
 
     private void SetDefaultMovement()
@@ -87,8 +102,8 @@ public class PlayerController : MonoBehaviour
         player.AddForce(jump, ForceMode.Impulse);
         onGround = false; // used to reset jumps AND for glide
         jumpCurrent += 1; // used to limit number of jumps
-        if(debug)
-            Debug.Log($"(Jump #, isGround): ({jumpCurrent}, {onGround})");
+        //if(debug)
+            //Debug.Log($"(Jump #, isGround): ({jumpCurrent}, {onGround})");
     }
 
     void GlideAction()
@@ -134,6 +149,16 @@ public class PlayerController : MonoBehaviour
 
     }
     // END JUMP functions
+    void OnFire() {
+        //filler function - currently attached to LMB
+        m_PlayerShootObserver.RayCheck();
+    }
+
+    void OnMelee() {
+        //filler function - currently attached to 'v'
+        m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.TriggerList;
+        m_PlayerMeleeObserver.CollisionCheck();
+    }
 
     // SPRINT functions
     void OnSprint()
@@ -174,6 +199,7 @@ public class PlayerController : MonoBehaviour
             Vector3 glide = new Vector3(0.0f, gravOpposite, 0.0f);
             player.AddForce(glide, ForceMode.Force);
         }
+
         if(isSprint == true)
         {
             player.MovePosition(player.position + movement * sprintSpeed);
@@ -206,7 +232,7 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetBool("Run", moving);
         }
     }
-
+    
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ground")) {
             OnGroundTouch();
