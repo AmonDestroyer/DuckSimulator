@@ -36,7 +36,7 @@ I came to game development from my own experiences as a gamer. I am excited to
 work on this game as a first game developed by me and the team.
 
 ## Asset Manager: Alder French
-*personal-statement*
+As a life long gamer and more recently programmer, I'm enjoying this opportunity to combine my professional skills with my leisurely ones. Looking forward to our progress on this game and continuing to work with a team for the first time in my college career. So far it's been fun!
 
 ## Gameplay Designer: Jay Taylor
 *personal-statement*
