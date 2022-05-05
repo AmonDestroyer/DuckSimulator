@@ -51,8 +51,8 @@ public class PlayerController : MonoBehaviour
         m_PlayerShootObserver.targetRange = 25.0f;
         m_PlayerShootObserver.targetTag = "Enemy";
         m_PlayerShootObserver.sourceTransform = GetComponent<Transform>();
-        
-        m_PlayerMeleeScope = meleeScope.GetComponentInChildren<MeleeScope>(); 
+
+        m_PlayerMeleeScope = meleeScope.GetComponentInChildren<MeleeScope>();
         m_PlayerMeleeObserver = new MeleeObserver();
         m_PlayerMeleeObserver.targetRange = 5.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
@@ -98,12 +98,12 @@ public class PlayerController : MonoBehaviour
 
     void JumpAction()
     {
-        Vector3 jump = new Vector3(0.0f, jumpHeight, 0.0f);
-        player.AddForce(jump, ForceMode.Impulse);
+        //Make new velocity vector, note the players x and z velocity shouldn't
+        //change
+        Vector3 jump = new Vector3(player.velocity.x, jumpHeight, player.velocity.z);
+        player.velocity = jump;
         onGround = false; // used to reset jumps AND for glide
         jumpCurrent += 1; // used to limit number of jumps
-        //if(debug)
-            //Debug.Log($"(Jump #, isGround): ({jumpCurrent}, {onGround})");
     }
 
     void GlideAction()
@@ -214,13 +214,13 @@ public class PlayerController : MonoBehaviour
         }
         // animation components (messy rn and impromptu)
         bool moving = (movementY > 0) || (movementX > 0);
-        if(moving) 
+        if(moving)
         {
             if(isSprint == true) {
                 m_Animator.SetBool("Walk", !moving);
                 m_Animator.SetBool("Run", moving);
-            } 
-            else 
+            }
+            else
             {
                 m_Animator.SetBool("Walk", moving);
                 m_Animator.SetBool("Run", !moving);
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetBool("Run", moving);
         }
     }
-    
+
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ground")) {
             OnGroundTouch();
