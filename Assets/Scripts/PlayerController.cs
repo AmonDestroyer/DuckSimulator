@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour
     public float gravityStrength = -25.0f; // GRAVITY IS CURRENTLY UNIVERSAL; BE CAREFUL
     public int jumpNum = 2;
     public float glideMulti = 0.1f;
+    public float terminalVelocity = -75.0f;
     public bool debug = false;
     public PlayerInput playerInput;
     public GameObject meleeScope;
+    public Transform startSpawnPoint;
 
     private Rigidbody player;
     private Animator m_Animator;
+    private Transform spawnPoint;
     // movement variables
     private Vector3 movement;
     private float movementX, movementY;
@@ -66,6 +69,7 @@ public class PlayerController : MonoBehaviour
         gravStr = new Vector3(0, gravityStrength, 0);
         player = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+        spawnPoint = startSpawnPoint;
         OnGroundTouch();
         SetDefaultMovement();
     }
@@ -231,11 +235,25 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetBool("Walk", moving);
             m_Animator.SetBool("Run", moving);
         }
+
+        //Set terminalVelocity
+        if (player.velocity.y < terminalVelocity){
+          Vector3 vel = player.velocity;
+          vel.y = terminalVelocity;
+          player.velocity = vel;
+        }
     }
 
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ground")) {
             OnGroundTouch();
+        }
+        if(other.gameObject.CompareTag("Death")){
+            player.position = spawnPoint.position;
+        }
+        if(other.gameObject.CompareTag("Respawn")){
+          spawnPoint = other.gameObject.transform;
+          other.gameObject.SetActive(false);
         }
     }
 }

@@ -284,9 +284,11 @@ MonoBehaviour:
   gravityStrength: -25
   jumpNum: 4
   glideMulti: 0.1
+  terminalVelocity: -75
   debug: 1
   playerInput: {fileID: 7195390855630895619}
   meleeScope: {fileID: 6731504017017643654}
+  startSpawnPoint: {fileID: 0}
 --- !u!114 &7195390855630895620
 MonoBehaviour:
   m_ObjectHideFlags: 0
