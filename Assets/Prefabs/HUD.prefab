@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 5242703116393639178}
   - component: {fileID: 5242703116393639179}
   - component: {fileID: 5242703116393639180}
+  - component: {fileID: 8203709997843396059}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -318,6 +319,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &8203709997843396059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5242703116393639181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771399748dc26aa479ef7589e3f471cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  featherCount: 0
+  featherCountText: {fileID: 5242703117986141436}
 --- !u!1 &5242703116419780982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1238,7 @@ GameObject:
   - component: {fileID: 5242703117986141435}
   - component: {fileID: 5242703117986141436}
   m_Layer: 0
-  m_Name: Currency
+  m_Name: FeatherCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
