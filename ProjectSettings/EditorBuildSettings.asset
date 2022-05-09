@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TutorialScene.unity
+    guid: eb8cda986b8599943a8a28e310957a5b
+  - enabled: 1
     path: Assets/Scenes/PoCLevelScene.unity
     guid: ea0b7b369d3dbbd4cbd1a1ca22d03c17
   m_configObjects: {}

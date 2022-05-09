@@ -7,6 +7,13 @@ TagManager:
   - Ground
   - Feather
   - Enemy
+  - Death
+  - stealingpoint
+  - sittingpoint
+  - pickuppoint
+  - waypoint
+  - Water
+  - Secret
   layers:
   - Default
   - TransparentFX
