@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
             else if (context.interaction is PressInteraction) {
-                if(onGround == true || jumpCurrent < jumpNum) {
+                if(jumpCurrent < jumpNum) {
                     // if player taps jump, and has jumps left, jump!
                     JumpAction();
                 }
