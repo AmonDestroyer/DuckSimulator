@@ -17,8 +17,8 @@ public class PlayerCameraController : MonoBehaviour
     public PlayerInput playerInput;
     public GameObject followTransform;
     public Camera camera;
-    public float pitchSpeed = 1f;
-    public float yawSpeed = 1f;
+    public float pitchSpeed = 0.3f;
+    public float yawSpeed = 0.3f;
 
     private Vector2 _look;
 

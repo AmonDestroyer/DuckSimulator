@@ -10,13 +10,16 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI locationText;
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
+    public CanvasGroup black;
 
     // Private Variables
     private PlayerController player;
-    private float m_Timer;
+    private float m_Timer = 0f;
+    private float m_CompletionTimer = 0f;
     private bool m_RemoveText=false;
     private bool m_EnableText=false;
     private bool m_Completed=false;
+    private bool m_fadeIn = true;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,14 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      if(m_fadeIn)
+      {
+        m_Timer += Time.deltaTime;
+        black.alpha = 1 - m_Timer/fadeDuration;
+        if (m_Timer > fadeDuration)
+          m_fadeIn = false;
+      }
+
       if (m_RemoveText)
       {
         DisableText();
@@ -38,11 +49,15 @@ public class TutorialManager : MonoBehaviour
       else if (m_EnableText){
         EnableText();
       }
-      else if (m_Completed){
-        m_Timer += Time.deltaTime;
-        if (m_Timer > (holdDuration + fadeDuration)){
+      if (m_Completed){
+        m_CompletionTimer += Time.deltaTime;
+        if (m_CompletionTimer > holdDuration)
+        {
+          black.alpha = (m_CompletionTimer-holdDuration)/fadeDuration;
+        }
+        if (m_CompletionTimer > (holdDuration + fadeDuration)){
           Debug.Log("Scene Completed");
-          SceneManager.LoadScene("PoCLevelScene");
+          SceneManager.LoadScene("MainScene");
         }
       }
     }
