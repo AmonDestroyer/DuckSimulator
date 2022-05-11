@@ -12,5 +12,9 @@ public class PlayerShootObserver : Observer
     public override void TargetSpotted() {
         Debug.Log("Hit!");
     }
+
+    public override void ApplyAttackForce(Collider target){
+        // implement force you want to apply to enemy when they get shot here
+    }
     
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Observer
+public abstract class Observer: MonoBehaviour
 {
     public string targetTag;
     public float targetRange;
@@ -16,6 +16,8 @@ public abstract class Observer
 
     public abstract Ray CreateRay();
     public abstract void TargetSpotted();
+    //Below line added by Alder on 5/10 to implement melee force to enemies
+    public abstract void ApplyAttackForce(Collider target);
     
     public void CollisionCheck() {
         foreach(Collider targetCollider in sourceColliders) {
@@ -26,6 +28,7 @@ public abstract class Observer
                 if(DirectRayCheck()) {
                     Debug.Log("Melee Successful!");
                     TargetSpotted();
+                    ApplyAttackForce(targetCollider);
                 }
             }
         }

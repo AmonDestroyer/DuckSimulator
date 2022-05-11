@@ -103,7 +103,7 @@ public class TutorialManager : MonoBehaviour
     {
       Debug.Log("Enabling Melee");
       locationText.text = "Melee " + "\n" +
-      "A melee can be performed using <insert button here>.";
+      "A melee can be performed by looking at an enemy and pressing 'v' ";
       SetEnableVariables();
     }
 
