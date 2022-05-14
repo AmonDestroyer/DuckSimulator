@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
-{
+{   
+    // health bar control implemented with help of below tutorial
+    // https://medium.com/swlh/game-dev-how-to-make-health-bars-in-unity-from-beginner-to-advanced-9a1d728d0cbf
+    public float health = 1.0f; // 1 = 100 % full, .5 = 50%, etc...
+    public Image healthBar;
+
     public float jumpHeight = 10.0f;
     public float walkSpeed = 0.2f;
     public float sprintSpeed = 0.4f;
@@ -68,10 +74,12 @@ public class PlayerController : MonoBehaviour
     {
         gravStr = new Vector3(0, gravityStrength, 0);
         player = GetComponent<Rigidbody>();
+        healthBar = GameObject.Find("HealthBarInner").GetComponent<Image>();
         Cursor.lockState = CursorLockMode.Locked;
         spawnPoint = startSpawnPoint;
         OnGroundTouch();
         SetDefaultMovement();
+
     }
 
     void OnMove(InputValue movementValue)
@@ -242,6 +250,12 @@ public class PlayerController : MonoBehaviour
           vel.y = terminalVelocity;
           player.velocity = vel;
         }
+
+        //EXAMPLE OF HOW YOU UPDATE HEALTH
+        UpdateHealth();
+        // in practice you wouldn't need to call UpdateHealth(); every frame,
+        // you only need to call it after you modify the 'health' variable
+        // e.g. when your player takes damage. 
     }
 
     void OnCollisionEnter(Collision other) {
@@ -255,5 +269,10 @@ public class PlayerController : MonoBehaviour
           spawnPoint = other.gameObject.transform;
           other.gameObject.SetActive(false);
         }
+    }
+
+    void UpdateHealth(){ //call this from update or fixedupdate 
+    //anytime after you change the 'health' variable
+        healthBar.fillAmount = health;
     }
 }
