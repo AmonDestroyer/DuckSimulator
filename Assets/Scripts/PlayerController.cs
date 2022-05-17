@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public float glideMulti = 0.1f;
     public float terminalVelocity = -75.0f;
     public bool debug = false;
+    public float meleeDamage = 0.7f;
+    public float meleeForce = 42.0f;
     public PlayerInput playerInput;
     public GameObject meleeScope;
     public Transform startSpawnPoint;
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviour
         m_PlayerShootObserver.sourceTransform = GetComponent<Transform>();
 
         m_PlayerMeleeScope = meleeScope.GetComponentInChildren<MeleeScope>();
-        m_PlayerMeleeObserver = new MeleeObserver();
+        m_PlayerMeleeObserver = new MeleeObserver(gameObject, meleeForce, meleeDamage);
         m_PlayerMeleeObserver.targetRange = 5.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
         m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
