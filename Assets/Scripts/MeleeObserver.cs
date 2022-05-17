@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MeleeObserver : Observer
 {   //making the below 'meleeForce' public does nothing since this is not a 'MonoBehaviour' class...
-    float meleeForce = 42.0f;
+    public float meleeForce = 42.0f;
     GameObject player;
+
 
     public override Ray CreateRay() {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3 (0.5f, 0.5f, 0));

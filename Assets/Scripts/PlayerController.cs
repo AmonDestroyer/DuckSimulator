@@ -275,4 +275,9 @@ public class PlayerController : MonoBehaviour
     //anytime after you change the 'health' variable
         healthBar.fillAmount = health;
     }
+
+    public void ApplyDamage(float damage){
+        health -= damage;
+        UpdateHealth();
+    }
 }

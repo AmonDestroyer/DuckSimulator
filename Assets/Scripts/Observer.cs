@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Observer: MonoBehaviour
+public abstract class Observer
 {
     public string targetTag;
     public float targetRange;
@@ -26,7 +26,7 @@ public abstract class Observer: MonoBehaviour
                 Debug.Log($"Collider2: {targetCollider.tag}: {targetCollider.CompareTag(targetTag)}");
                 targetTransform = targetCollider.transform;
                 if(DirectRayCheck()) {
-                    Debug.Log("Melee Successful!");
+                    Debug.Log("Collision Check Successful!");
                     TargetSpotted();
                     ApplyAttackForce(targetCollider);
                 }
