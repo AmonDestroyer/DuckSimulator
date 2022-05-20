@@ -26,10 +26,12 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
     public GameObject meleeScope;
     public Transform startSpawnPoint;
+    public GameObject projectile;
 
     private Rigidbody player;
     private Animator m_Animator;
     private Transform spawnPoint;
+    private Transform m_ProjectileSpawn;
     // movement variables
     private Vector3 movement;
     private float movementX, movementY;
@@ -45,9 +47,10 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
     private InputAction sprintAction;
     private InputAction crouchAction;
-    private PlayerShootObserver m_PlayerShootObserver;
+    //private PlayerShootObserver m_PlayerShootObserver;
     private MeleeObserver m_PlayerMeleeObserver;
     private MeleeScope m_PlayerMeleeScope;
+    private Ejaculator m_Ejaculator;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,19 +60,24 @@ public class PlayerController : MonoBehaviour
         crouchAction = playerInput.currentActionMap["Crouch"];
         player = GetComponent<Rigidbody>();
         m_Animator = GetComponentInChildren(typeof(Animator)) as Animator;
-
+        /*
         m_PlayerShootObserver = new PlayerShootObserver();
         m_PlayerShootObserver.targetRange = 25.0f;
         m_PlayerShootObserver.targetTag = "Enemy";
         m_PlayerShootObserver.sourceTransform = GetComponent<Transform>();
-
+        */
         m_PlayerMeleeScope = meleeScope.GetComponentInChildren<MeleeScope>();
         m_PlayerMeleeObserver = new MeleeObserver(gameObject, meleeForce, meleeDamage);
+        m_ProjectileSpawn = transform.Find("ProjectileOrigin");
+        m_Ejaculator = gameObject.AddComponent<Ejaculator>() as Ejaculator;
+        m_Ejaculator.cock = m_ProjectileSpawn;
+        m_Ejaculator.sperm = projectile;
+        m_Ejaculator.shaft = transform;
         m_PlayerMeleeObserver.targetRange = 5.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
         m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
 
-        Debug.Log($"{m_PlayerShootObserver.targetTag}, {m_PlayerShootObserver.targetRange}");
+        //Debug.Log($"{m_PlayerShootObserver.targetTag}, {m_PlayerShootObserver.targetRange}");
     }
 
     void Start()
@@ -165,7 +173,9 @@ public class PlayerController : MonoBehaviour
     // END JUMP functions
     void OnFire() {
         //filler function - currently attached to LMB
-        m_PlayerShootObserver.RayCheck();
+        //m_PlayerShootObserver.RayCheck();
+        m_Ejaculator.ejaculate();
+
     }
 
     void OnMelee() {
@@ -200,6 +210,10 @@ public class PlayerController : MonoBehaviour
         crouchAction.canceled += context => {
             isCrouch = false;
         };
+    }
+
+    void Update() {
+
     }
 
     // Update is called once per frame

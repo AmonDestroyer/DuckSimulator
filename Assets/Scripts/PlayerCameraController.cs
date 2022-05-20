@@ -16,6 +16,7 @@ public class PlayerCameraController : MonoBehaviour
 
     public PlayerInput playerInput;
     public GameObject followTransform;
+    public GameObject projectileTransform;
     public Camera camera;
     public float pitchSpeed = 0.3f;
     public float yawSpeed = 0.3f;
@@ -34,15 +35,15 @@ public class PlayerCameraController : MonoBehaviour
       followTransform.transform.rotation *= Quaternion.AngleAxis(_look.x * yawSpeed, Vector3.up);
       //yaw
       followTransform.transform.rotation *= Quaternion.AngleAxis(-_look.y * pitchSpeed, Vector3.right);
+      projectileTransform.transform.rotation *= Quaternion.AngleAxis(-_look.y * pitchSpeed, Vector3.right);
       //pitch
-
       //Set basic look angles
       var angles = followTransform.transform.localEulerAngles;
       angles.z = 0;
 
       var angle = followTransform.transform.localEulerAngles.x;
       //Clamp the Up/Down rotation
-      if (angle > 180 && angle < 350) //Up (cCmera below player)
+      if (angle > 180 && angle < 350) //Up (Camera below player)
       {
           angles.x = 350;
       }
@@ -50,9 +51,11 @@ public class PlayerCameraController : MonoBehaviour
       {
           angles.x = 70;
       }
-
+      var angles_copy = angles;
+      angles_copy.x += 60;
       followTransform.transform.localEulerAngles = angles;
-
+      projectileTransform.transform.localEulerAngles = angles_copy; // for the bullets
+      
       //Set the player rotation based on the look transform
       transform.rotation = Quaternion.Euler(0, followTransform.transform.rotation.eulerAngles.y, 0);
       //reset the y rotation of the look transform
