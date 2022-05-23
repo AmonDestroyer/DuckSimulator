@@ -7,11 +7,12 @@ public class Ejaculator: MonoBehaviour
     public Transform cock; // object giving position of launching
     public Transform shaft; // actual body of thing launching object
     public GameObject sperm; // object being launched
-    public float ejaculateVelocity = 1000f;
+    public float ejaculateVelocity = 1000f; // velocity
 
-    void Update() {
-        Vector3 forward_shaft = new Vector3(shaft.forward.x, 0.0f, shaft.forward.z);
-        cock.position = shaft.position + shaft.forward * 1.0f;
+    void Update() { // constantly adjusts position of aiming anchors
+        Vector3 forward_shaft = new Vector3(shaft.forward.x, 0.0f, shaft.forward.z); // calculates where to place cock
+        cock.position = shaft.position + shaft.forward * 1.0f; // places cock in front of object
+        // VESTIGIAL CODE
         //Vector3 rotation_axis = Vector3.Cross(shaft.forward, Vector3.up);
         //Debug.Log($"{shaft.forward}; {rotation_axis}");
         //float shaft_angle = shaft.localEulerAngles.x;
@@ -26,15 +27,15 @@ public class Ejaculator: MonoBehaviour
         
     }
 
-    public void ejaculate() {
-        Quaternion semen_rotation = sperm.transform.rotation;
-        GameObject semen = Instantiate(sperm, cock.position, semen_rotation);
-        Vector3 direction =  cock.position - shaft.position;
-        direction.Normalize();
-        semen.GetComponent<Rigidbody>().AddForce(ejaculateVelocity * direction);
+    public void ejaculate() {  // fires objects
+        Quaternion semen_rotation = sperm.transform.rotation; // takes rotation of object (already adjusted manually)
+        Vector3 direction =  cock.position - shaft.position; // calculates direction of launch and...
+        direction.Normalize();                               // turns into a direction vector
+        GameObject semen = Instantiate(sperm, cock.position, semen_rotation); // makes a projectile object
+        semen.GetComponent<Rigidbody>().AddForce(ejaculateVelocity * direction); // launches projectile along trajectory
     }
 
-    public void set_velocity(float new_velocity) {
+    public void set_velocity(float new_velocity) { // new velocity for firing projectiles
         ejaculateVelocity = new_velocity;
     }
 };
