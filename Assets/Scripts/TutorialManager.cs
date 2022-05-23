@@ -135,7 +135,7 @@ public class TutorialManager : MonoBehaviour
       Debug.Log("Enable Bow");
       locationText.text = "Bow" + "\n" +
       "The is a weapon that can be used to fire arrows at enemies using " +
-      "<insert button here>.";
+      "Left Mouse Button.";
       SetEnableVariables();
     }
 
