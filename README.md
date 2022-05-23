@@ -12,6 +12,7 @@ progress as we built out the game.
 | Build |
 | :-------: |
 |[Proof of Concept](https://play.unity.com/mg/other/duck-simulator-poc)|
+|[Alpha](https://play.unity.com/mg/other/duck-simulator-alpha)|
 
 
 ## Story
