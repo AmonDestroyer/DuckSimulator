@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody player;
     private Animator m_Animator;
     private Transform spawnPoint;
-    private Transform m_ProjectileSpawn;
+    private Transform m_ProjectileOrigin;
+    private Transform m_ProjectileAnchor;
     // movement variables
     private Vector3 movement;
     private float movementX, movementY;
@@ -69,11 +70,12 @@ public class PlayerController : MonoBehaviour
         */
         m_PlayerMeleeScope = meleeScope.GetComponentInChildren<MeleeScope>();
         m_PlayerMeleeObserver = new MeleeObserver(gameObject, meleeForce, meleeDamage);
-        m_ProjectileSpawn = transform.Find("ProjectileOrigin");
+        m_ProjectileOrigin = transform.Find("ProjectileOrigin");
+        m_ProjectileAnchor = transform.Find("ProjectileAnchor");
         m_Ejaculator = gameObject.AddComponent<Ejaculator>() as Ejaculator;
-        m_Ejaculator.cock = m_ProjectileSpawn;
+        m_Ejaculator.cock = m_ProjectileOrigin;
         m_Ejaculator.sperm = projectile;
-        m_Ejaculator.shaft = transform;
+        m_Ejaculator.shaft = m_ProjectileAnchor;
         m_PlayerMeleeObserver.targetRange = 5.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
         m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
