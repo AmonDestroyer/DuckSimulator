@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
     public Button m_BtnTutorial;
+    public Button m_BtnNewGame;
     public int fadeTime = 3;
     public CanvasGroup black;
+    public TextMeshProUGUI LoadPercentage;
 
     private bool fade = false;
     private float m_Timer;
     private string loadScene = "";
+    private AsyncOperation asyncLoad;
 
     // Start is called before the first frame update
     void Start()
     {
       //black = GetComponent<CanvasGroup>();
       m_BtnTutorial.onClick.AddListener(LaunchTutorial);
+      m_BtnNewGame.onClick.AddListener(NewGame);
       Cursor.lockState = CursorLockMode.None;//locked by the playerController script
     }
 
@@ -28,8 +33,8 @@ public class MainMenuController : MonoBehaviour
       if(fade){
         m_Timer += Time.deltaTime;
         black.alpha = m_Timer/fadeTime;
-        if (m_Timer > fadeTime)
-          SceneManager.LoadScene(loadScene);
+        float loadProgress = asyncLoad.progress;
+        LoadPercentage.text = loadProgress + "%";
       }
     }
 
@@ -38,9 +43,22 @@ public class MainMenuController : MonoBehaviour
     */
     void LaunchTutorial()
     {
-      Debug.Log("Running Tutorial");
+      loadScene = "TutorialScene";
+      LoadScene();
+    }
+
+    void NewGame()
+    {
+
+      loadScene = "HomeBaseScene";
+      LoadScene();
+    }
+
+    void LoadScene()
+    {
+      Debug.Log($"Loading: {loadScene}");
+      asyncLoad = SceneManager.LoadSceneAsync(loadScene);
       m_Timer = 0f;
       fade = true;
-      loadScene = "TutorialScene";
     }
 }

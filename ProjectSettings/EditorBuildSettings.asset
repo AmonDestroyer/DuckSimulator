@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TutorialScene.unity
     guid: eb8cda986b8599943a8a28e310957a5b
+  - enabled: 1
+    path: Assets/Scenes/HomeBaseScene.unity
+    guid: 549a73b9515863647a385fd516c00941
   - enabled: 0
     path: Assets/Scenes/PoCLevelScene.unity
     guid: ea0b7b369d3dbbd4cbd1a1ca22d03c17
