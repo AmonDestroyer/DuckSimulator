@@ -52,7 +52,7 @@ public class PlayerCameraController : MonoBehaviour
           angles.x = 70;
       }
       var angles_copy = angles;
-      angles_copy.x += 60;
+      angles_copy.x -= 50;
       followTransform.transform.localEulerAngles = angles;
       projectileTransform.transform.localEulerAngles = angles_copy; // for the bullets
       
