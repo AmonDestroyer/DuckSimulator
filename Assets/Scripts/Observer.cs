@@ -15,7 +15,7 @@ public abstract class Observer
     private int m_LayerMask = LayerMask.GetMask("Default");
 
     public abstract Ray CreateRay();
-    public abstract void TargetSpotted();
+    public abstract void TargetSpotted(); // what to do on a successful collision hit
     //Below line added by Alder on 5/10 to implement melee force to enemies
     public abstract void ApplyAttackForce(Collider target);
     

@@ -19,7 +19,7 @@ public class EnemyBase : MonoBehaviour
     public float damage = 0.05f;
     public float meleeForce = 15.0f;
     private MeleeScope enemyMeleeScope;
-    private EnemyMeleeObserver enemyMeleeObserver;
+    private MeleeObserver enemyMeleeObserver;
 
     //SECTION FOR ENEMY STAMINA
     EnemyStaminaCharger enemyStaminaCharger;
@@ -40,7 +40,7 @@ public class EnemyBase : MonoBehaviour
     {
         player = GameObject.Find("Player");
 
-        enemyMeleeObserver = new EnemyMeleeObserver(gameObject, meleeForce, damage);
+        enemyMeleeObserver = new MeleeObserver(gameObject, meleeForce, damage);
         enemyMeleeScope = GetComponentInChildren<MeleeScope>();
         enemyMeleeObserver.targetRange = attackRadius;
         enemyMeleeObserver.targetTag = "Player";
@@ -94,7 +94,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     void Attack(){
-        enemyMeleeObserver.sourceColliders = enemyMeleeScope.TriggerList;
+        enemyMeleeObserver.sourceColliders = enemyMeleeScope.getTriggerList();
         enemyMeleeObserver.CollisionCheck();
     }
 

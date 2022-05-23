@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
     void OnMelee() {
         //filler function - currently attached to 'v'
-        m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.TriggerList;
+        m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.getTriggerList();
         m_PlayerMeleeObserver.CollisionCheck();
     }
 
