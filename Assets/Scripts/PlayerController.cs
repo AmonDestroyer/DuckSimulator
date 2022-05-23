@@ -49,15 +49,23 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
     private InputAction sprintAction;
     private InputAction crouchAction;
+    private InputAction fireAction;
     //private PlayerShootObserver m_PlayerShootObserver;
     private MeleeObserver m_PlayerMeleeObserver;
     private MeleeScope m_PlayerMeleeScope;
     private Ejaculator m_Ejaculator;
+    // for linear interpolation shots (i.e. charge shots)
+    private float m_Firepower_lower = 100f;
+    private float m_Firepower_upper = 2000f;
+    private float m_LMBpress_max = 2.0f;
+    private float m_LMBpress = 0.0f;
+    private bool m_charge = false;
 
     // Start is called before the first frame update
     void Awake()
     {
         jumpAction = playerInput.currentActionMap["Jump"];
+        fireAction = playerInput.currentActionMap["Fire"];
         sprintAction = playerInput.currentActionMap["Sprint"];
         crouchAction = playerInput.currentActionMap["Crouch"];
         player = GetComponent<Rigidbody>();
@@ -177,9 +185,19 @@ public class PlayerController : MonoBehaviour
     void OnFire() {
         //filler function - currently attached to LMB
         //m_PlayerShootObserver.RayCheck();
-        if (enableFire)
-          m_Ejaculator.ejaculate();
-
+        if (enableFire) {
+            fireAction.started += context => {
+                m_LMBpress = 0.0f;
+            };
+            fireAction.performed += context => {
+                m_charge = true;
+            };
+            fireAction.canceled += context => {
+                m_charge = false;
+                m_Ejaculator.SetVelocity(Mathf.Lerp(m_Firepower_lower, m_Firepower_upper, (m_LMBpress/m_LMBpress_max)));
+                m_Ejaculator.Ejaculate();
+            };
+        }
     }
 
     void OnMelee() {
@@ -258,6 +276,13 @@ public class PlayerController : MonoBehaviour
         else
         {
             player.MovePosition(player.position + movement * walkSpeed);
+        }
+        if(m_charge) {
+            if(m_LMBpress_max > m_LMBpress) {
+                    m_LMBpress += Time.deltaTime;
+                } else {
+                    m_charge = false;
+                }
         }
         // animation components (messy rn and impromptu)
         bool moving = (movementY > 0) || (movementX > 0);

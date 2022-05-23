@@ -27,7 +27,7 @@ public class Ejaculator: MonoBehaviour
         
     }
 
-    public void ejaculate() {  // fires objects
+    public void Ejaculate() {  // fires objects
         Quaternion semen_rotation = sperm.transform.rotation; // takes rotation of object (already adjusted manually)
         Vector3 direction =  cock.position - shaft.position; // calculates direction of launch and...
         direction.Normalize();                               // turns into a direction vector
@@ -35,7 +35,8 @@ public class Ejaculator: MonoBehaviour
         semen.GetComponent<Rigidbody>().AddForce(ejaculateVelocity * direction); // launches projectile along trajectory
     }
 
-    public void set_velocity(float new_velocity) { // new velocity for firing projectiles
+    public void SetVelocity(float new_velocity) { // new velocity for firing things
         ejaculateVelocity = new_velocity;
+        Debug.Log($"{ejaculateVelocity}");
     }
 };

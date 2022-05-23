@@ -6,13 +6,15 @@ public class Projectile : MonoBehaviour
 {
     public string targetTag; // what to attack when it hits
     public float despawnTime = 2.0f; // time till despawn after hitting non-target object
-    public float longDespawn = 10.0f; // safety check; if still in existence after this period, delete
+    public float longDespawn = 15.0f; // safety check; if still in existence after this period, delete
+    public GameObject source;
     private Rigidbody m_rigid; // rigidbody of projectile
     private float m_despawnTimer; // records time after hitting something
     private float m_longDespawnTimer; // records time since initialization
     private bool m_timerStart; // whether timer should be started
     private bool m_onGround; // whether object is on ground
     private Quaternion m_initialRotation; // initial rotation of object
+
 
     void Awake() {
         // setting initial values
@@ -43,7 +45,8 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision other) {
         GameObject target = other.gameObject;
-        if(target.CompareTag(targetTag) && !(m_timerStart)) { // only works if enemy is hit FIRST!
+        Debug.Log($"{target}");
+        if(target.CompareTag(targetTag) && (m_despawnTimer < 0.2f)) { // only works if enemy is hit FIRST (or within small range of error)!
             Hit(target); // do a damage effect 
             Destroy(this.gameObject); // then delete projectile
         }
@@ -53,7 +56,9 @@ public class Projectile : MonoBehaviour
             m_onGround = false;
         }
         //m_rigid.velocity = Vector3.zero;
-        m_timerStart = true;
+        if(target != source) {
+            m_timerStart = true;
+        }
     }
 
     void Hit(GameObject target) { // currently does hit; will do more later!

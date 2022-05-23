@@ -292,6 +292,7 @@ MonoBehaviour:
   debug: 1
   meleeDamage: 0.7
   meleeForce: 42
+  enableFire: 1
   playerInput: {fileID: 7195390855630895619}
   meleeScope: {fileID: 6731504017017643654}
   startSpawnPoint: {fileID: 0}
@@ -339,7 +340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7298932019742419031}
   m_LocalRotation: {x: 0.034935907, y: -0, z: -0, w: 0.9993896}
-  m_LocalPosition: {x: 0, y: 3.2770002, z: -13}
+  m_LocalPosition: {x: 0, y: 3.2769995, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -413,7 +414,7 @@ Transform:
   m_GameObject: {fileID: 7828752676761050490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.02, y: -0.03, z: 0.173}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7195390855630895617}
@@ -434,7 +435,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7828752676761050490}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -531,7 +532,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8170632725584232737}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -670,7 +671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84119996324125847a619280107caf07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TriggerList: []
 --- !u!1001 &7195390856511059370
 PrefabInstance:
   m_ObjectHideFlags: 0
