@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
-{   
+{
     // health bar control implemented with help of below tutorial
     // https://medium.com/swlh/game-dev-how-to-make-health-bars-in-unity-from-beginner-to-advanced-9a1d728d0cbf
     public float health = 1.0f; // 1 = 100 % full, .5 = 50%, etc...
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public bool debug = false;
     public float meleeDamage = 0.7f;
     public float meleeForce = 42.0f;
+    public bool enableFire = true;
     public PlayerInput playerInput;
     public GameObject meleeScope;
     public Transform startSpawnPoint;
@@ -174,7 +175,8 @@ public class PlayerController : MonoBehaviour
     void OnFire() {
         //filler function - currently attached to LMB
         //m_PlayerShootObserver.RayCheck();
-        m_Ejaculator.ejaculate();
+        if (enableFire)
+          m_Ejaculator.ejaculate();
 
     }
 
@@ -210,6 +212,21 @@ public class PlayerController : MonoBehaviour
         crouchAction.canceled += context => {
             isCrouch = false;
         };
+    }
+
+    void OnMenu()
+    {
+      if (Time.timeScale == 1.0f){
+        Time.timeScale = 0.0f;
+        playerInput.SwitchCurrentActionMap("UI");
+        Cursor.lockState = CursorLockMode.None;
+      }
+      else {
+        Time.timeScale = 1.0f;
+        playerInput.SwitchCurrentActionMap("Player");
+        Cursor.lockState = CursorLockMode.Locked;
+      }
+
     }
 
     void Update() {
@@ -271,7 +288,7 @@ public class PlayerController : MonoBehaviour
         UpdateHealth();
         // in practice you wouldn't need to call UpdateHealth(); every frame,
         // you only need to call it after you modify the 'health' variable
-        // e.g. when your player takes damage. 
+        // e.g. when your player takes damage.
     }
 
     void OnCollisionEnter(Collision other) {
@@ -287,7 +304,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void UpdateHealth(){ //call this from update or fixedupdate 
+    void UpdateHealth(){ //call this from update or fixedupdate
     //anytime after you change the 'health' variable
         healthBar.fillAmount = health;
     }

@@ -26,6 +26,7 @@ public class TutorialManager : MonoBehaviour
     {
       player = GetComponent<PlayerController>();
       player.jumpNum = 0;
+      player.enableFire = false;
       player.sprintSpeed = player.walkSpeed;
 
       locationText.text = "Use WASD to move" + "\n" + "Use Mouse to look";
@@ -132,7 +133,7 @@ public class TutorialManager : MonoBehaviour
 
     void EnableBow()
     {
-      Debug.Log("Enable Bow");
+      player.enableFire = true;
       locationText.text = "Bow" + "\n" +
       "The is a weapon that can be used to fire arrows at enemies using " +
       "Left Mouse Button.";
