@@ -60,6 +60,9 @@ public class PlayerController : MonoBehaviour
     private float m_LMBpress_max = 2.0f;
     private float m_LMBpress = 0.0f;
     private bool m_charge = false;
+    // UI Upate items
+    private Slider m_slider;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -93,14 +96,18 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        //Locking cursor
+        Cursor.lockState = CursorLockMode.Locked;
+        //Setting Player basics
         gravStr = new Vector3(0, gravityStrength, 0);
         player = GetComponent<Rigidbody>();
-        healthBar = GameObject.Find("HealthBarInner").GetComponent<Image>();
-        Cursor.lockState = CursorLockMode.Locked;
         spawnPoint = startSpawnPoint;
+        //Getting UI
+        healthBar = GameObject.Find("HealthBarInner").GetComponent<Image>();
+        m_slider = GameObject.Find("PowerMeter").GetComponent<Slider>();
+        //Initial conditions set
         OnGroundTouch();
         SetDefaultMovement();
-
     }
 
     void OnMove(InputValue movementValue)
@@ -283,6 +290,8 @@ public class PlayerController : MonoBehaviour
                 } else {
                     m_charge = false;
                 }
+            //Update UI
+            m_slider.value = Mathf.Lerp(0.0f,1.0f,(m_LMBpress/m_LMBpress_max));
         }
         // animation components (messy rn and impromptu)
         bool moving = (movementY > 0) || (movementX > 0);
