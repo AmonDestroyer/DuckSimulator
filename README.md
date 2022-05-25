@@ -40,4 +40,5 @@ work on this game as a first game developed by me and the team.
 As a life long gamer and more recently programmer, I'm enjoying this opportunity to combine my professional skills with my leisurely ones. Looking forward to our progress on this game and continuing to work with a team for the first time in my college career. So far it's been fun!
 
 ## Gameplay Designer: Jay Taylor
-*personal-statement*
+![Gameplay Designer: Jay Taylor](/Assets/Images/Team/jay.jpg "Jay Taylor")
+I've always wanted to try my hand at video game design! While the project our group has undertaken certainly is ambitious, I appreciate the challenges it's pushed us through, and I feel like I've grown a lot as both a coder and a game designer.
