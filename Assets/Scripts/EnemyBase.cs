@@ -105,6 +105,7 @@ public class EnemyBase : MonoBehaviour
     void Dead(){ // call this when health < 0
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
+        rb.AddForce(Vector3.up * 1f, ForceMode.Impulse);
     }
 
 }

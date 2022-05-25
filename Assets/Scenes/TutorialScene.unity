@@ -49341,7 +49341,7 @@ MonoBehaviour:
   enemyLookSpeed: 0.75
   approachRadius: 100
   stopRadius: 5
-  health: 2
+  health: 1.4
   attackRadius: 10
   damage: 0.05
   meleeForce: 15
@@ -50251,7 +50251,7 @@ MonoBehaviour:
   enemyLookSpeed: 0.75
   approachRadius: 100
   stopRadius: 5
-  health: 20
+  health: 5
   attackRadius: 10
   damage: 0.05
   meleeForce: 15
@@ -51485,7 +51485,7 @@ MonoBehaviour:
   enemyLookSpeed: 0.75
   approachRadius: 100
   stopRadius: 5
-  health: 2
+  health: 1.4
   attackRadius: 10
   damage: 0.05
   meleeForce: 15
