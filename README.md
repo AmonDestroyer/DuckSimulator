@@ -39,6 +39,8 @@ work on this game as a first game developed by me and the team.
 ## Asset Manager: Alder French
 ![Asset Manager: Alder French](/Assets/Images/Team/alderProfile.jpeg "Alder French" | width=100)
 
+<img src="/Assets/Images/Team/alderProfile.jpeg" alt="drawing" width="200"/>
+
 As a life long gamer and more recently programmer, I'm enjoying this opportunity to combine my professional skills with my leisurely ones. Looking forward to our progress on this game and continuing to work with a team for the first time in my college career. So far it's been fun!
 
 ## Gameplay Designer: Jay Taylor
