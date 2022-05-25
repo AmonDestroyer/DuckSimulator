@@ -37,7 +37,6 @@ I came to game development from my own experiences as a gamer. I am excited to
 work on this game as a first game developed by me and the team.
 
 ## Asset Manager: Alder French
-![Asset Manager: Alder French](/Assets/Images/Team/alderProfile.jpeg "Alder French" | width=100)
 
 <img src="/Assets/Images/Team/alderProfile.jpeg" alt="drawing" width="200"/>
 
