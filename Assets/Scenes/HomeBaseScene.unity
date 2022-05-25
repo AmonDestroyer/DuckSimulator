@@ -11212,6 +11212,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ForestScene
       objectReference: {fileID: 0}
+    - target: {fileID: 4789949283517760700, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5599941147197805219, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.08624065
@@ -14779,6 +14783,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8460681501708563711, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
