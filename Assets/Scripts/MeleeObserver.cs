@@ -26,6 +26,16 @@ public class MeleeObserver : Observer
     //below method added by Alder 5/10/22 to implement melee force
     public override void ApplyAttackForce(Collider target){
         target.attachedRigidbody.AddForce(self.transform.forward * this.meleeForce, ForceMode.Impulse);
+        if(target.tag == "Player") {
+            GameObject player = target.gameObject;
+            PlayerController player_controller = player.GetComponent<PlayerController>();
+            player_controller.ApplyDamage(0.05f);
+        }
+        if(target.tag == "Enemy") {
+            GameObject enemy = target.gameObject;
+            EnemyBase enemy_base = enemy.GetComponent<EnemyBase>();
+            enemy_base.ApplyDamage(0.2f);
+        }
         //EnemyBase scriptInstance = target.GetComponent<EnemyBase>();
         //scriptInstance.ApplyDamage(this.damage);
     }

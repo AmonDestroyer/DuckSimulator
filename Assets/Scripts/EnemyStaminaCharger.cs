@@ -39,4 +39,4 @@ public class EnemyStaminaCharger
             yield return new WaitForSeconds(stepDelay);
         }
     }
-}
+};

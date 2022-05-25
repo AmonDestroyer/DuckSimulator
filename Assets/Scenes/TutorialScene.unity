@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.56145346, g: 0.65786976, b: 0.7120733, a: 1}
+  m_IndirectSpecularColor: {r: 0.7305366, g: 0.8041292, b: 0.7830259, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3628,6 +3628,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!4 &108043019 stripped
@@ -5346,6 +5350,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!4 &154228724 stripped
@@ -6320,6 +6328,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!4 &191726324 stripped
@@ -20943,6 +20955,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!1001 &701615364
@@ -22710,6 +22726,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!1001 &798156526
@@ -45934,6 +45954,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!1001 &1356495854
@@ -49317,7 +49341,7 @@ MonoBehaviour:
   enemyLookSpeed: 0.75
   approachRadius: 100
   stopRadius: 5
-  health: 1
+  health: 2
   attackRadius: 10
   damage: 0.05
   meleeForce: 15
@@ -50227,7 +50251,7 @@ MonoBehaviour:
   enemyLookSpeed: 0.75
   approachRadius: 100
   stopRadius: 5
-  health: 1
+  health: 20
   attackRadius: 10
   damage: 0.05
   meleeForce: 15
@@ -50440,6 +50464,7 @@ MonoBehaviour:
   fadeDuration: 1
   holdDuration: 5
   black: {fileID: 35524048}
+  sampleInstance: {fileID: 0}
 --- !u!1001 &1526277500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51460,7 +51485,7 @@ MonoBehaviour:
   enemyLookSpeed: 0.75
   approachRadius: 100
   stopRadius: 5
-  health: 1
+  health: 2
   attackRadius: 10
   damage: 0.05
   meleeForce: 15
@@ -62757,6 +62782,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!4 &1962079301 stripped
@@ -67423,6 +67452,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594945850127153591, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 2119134949}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75a3e19466d2a374fb3f458dd07c8731, type: 3}
 --- !u!4 &2144172621 stripped
@@ -67564,6 +67597,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8460681501708563711, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9026667883636849952, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

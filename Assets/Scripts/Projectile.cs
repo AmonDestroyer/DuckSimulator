@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public string targetTag; // what to attack when it hits
+    public string targetTag = "Enemy"; // what to attack when it hits
     public float despawnTime = 2.0f; // time till despawn after hitting non-target object
     public float longDespawn = 15.0f; // safety check; if still in existence after this period, delete
     public GameObject source;
+    public GameObject target; // temp
+    private EnemyBase hit_script;
     private Rigidbody m_rigid; // rigidbody of projectile
     private float m_despawnTimer; // records time after hitting something
     private float m_longDespawnTimer; // records time since initialization
@@ -44,10 +46,10 @@ public class Projectile : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
-        GameObject target = other.gameObject;
+        target = other.gameObject;
         Debug.Log($"{target}");
         if(target.CompareTag(targetTag) && (m_despawnTimer < 0.2f)) { // only works if enemy is hit FIRST (or within small range of error)!
-            Hit(target); // do a damage effect 
+            Hit(); // do a damage effect 
             Destroy(this.gameObject); // then delete projectile
         }
         if (target.CompareTag("Ground")) { // checks for ground positioning
@@ -61,7 +63,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    void Hit(GameObject target) { // currently does hit; will do more later!
+    void Hit() { // currently does hit; will do more later!
+        hit_script = target.GetComponent<EnemyBase>();
+        hit_script.ApplyDamage(0.2f);
         Debug.Log($"Feather hit {targetTag}!");
     }
 };

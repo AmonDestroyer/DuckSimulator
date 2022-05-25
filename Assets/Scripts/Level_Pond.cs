@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Level_Pond : MonoBehaviour
 {
+    public GameObject sampleInstance;
     /*
     This script is attached to the player and used to manage events of the
     scenery with the player. This will manage secret areas, scene change, etc.
@@ -15,7 +16,7 @@ public class Level_Pond : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+      sampleInstance = gameObject;
     }
 
     // Update is called once per frame
@@ -30,6 +31,7 @@ public class Level_Pond : MonoBehaviour
       {
           case "EndTrigger":
             SceneManager.LoadScene("HomeBaseScene");
+            Destroy(sampleInstance);
             break;
           default:
             if (debug)

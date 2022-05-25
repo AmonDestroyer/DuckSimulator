@@ -12,6 +12,7 @@ public class MainMenuController : MonoBehaviour
     public int fadeTime = 3;
     public CanvasGroup black;
     public TextMeshProUGUI LoadPercentage;
+    //public NeverUnloadSceneManager MainManager;
 
     private bool fade = false;
     private float m_Timer;
@@ -22,6 +23,7 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
       //black = GetComponent<CanvasGroup>();
+      //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
       m_BtnTutorial.onClick.AddListener(LaunchTutorial);
       m_BtnNewGame.onClick.AddListener(NewGame);
       Cursor.lockState = CursorLockMode.None;//locked by the playerController script
@@ -43,13 +45,14 @@ public class MainMenuController : MonoBehaviour
     */
     void LaunchTutorial()
     {
+      //MainManager.StartMainScene();
       loadScene = "TutorialScene";
       LoadScene();
     }
 
     void NewGame()
     {
-
+      //MainManager.StartMainScene();
       loadScene = "HomeBaseScene";
       LoadScene();
     }
