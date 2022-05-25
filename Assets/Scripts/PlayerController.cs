@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool debug = false;
+
     // health bar control implemented with help of below tutorial
     // https://medium.com/swlh/game-dev-how-to-make-health-bars-in-unity-from-beginner-to-advanced-9a1d728d0cbf
     public float health = 1.0f; // 1 = 100 % full, .5 = 50%, etc...
@@ -20,7 +22,6 @@ public class PlayerController : MonoBehaviour
     public int jumpNum = 2;
     public float glideMulti = 0.1f;
     public float terminalVelocity = -75.0f;
-    public bool debug = false;
     public float meleeDamage = 0.7f;
     public float meleeForce = 42.0f;
     public bool enableFire = true;
@@ -60,9 +61,12 @@ public class PlayerController : MonoBehaviour
     private float m_LMBpress_max = 2.0f;
     private float m_LMBpress = 0.0f;
     private bool m_charge = false;
-    // UI Upate items
+    // UI Update items
     private Slider m_slider;
 
+    // Menu Items
+    private Canvas m_ExitMenu;
+    private Canvas m_HUD;
 
     // Start is called before the first frame update
     void Awake()
@@ -108,6 +112,10 @@ public class PlayerController : MonoBehaviour
         //Initial conditions set
         OnGroundTouch();
         SetDefaultMovement();
+
+        //Getting Menu Canvas
+        m_ExitMenu = GameObject.Find("ExitMenu").GetComponent<Canvas>();
+        m_HUD = GameObject.Find("HUD").GetComponent<Canvas>();
     }
 
     void OnMove(InputValue movementValue)
@@ -241,17 +249,21 @@ public class PlayerController : MonoBehaviour
         };
     }
 
-    void OnMenu()
+    public void OnMenu()
     {
       if (Time.timeScale == 1.0f){
         Time.timeScale = 0.0f;
         playerInput.SwitchCurrentActionMap("UI");
         Cursor.lockState = CursorLockMode.None;
+        m_HUD.enabled = false;
+        m_ExitMenu.enabled = true;
       }
       else {
         Time.timeScale = 1.0f;
         playerInput.SwitchCurrentActionMap("Player");
         Cursor.lockState = CursorLockMode.Locked;
+        m_HUD.enabled = true;
+        m_ExitMenu.enabled = false;
       }
 
     }
