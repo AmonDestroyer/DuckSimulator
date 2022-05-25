@@ -84,10 +84,7 @@ public class TutorialManager : MonoBehaviour
       locationText.alpha = m_Timer / fadeDuration;
       if (m_Timer > holdDuration)
       {
-
-        m_Timer = 0f;
-        m_EnableText = false;
-        m_RemoveText = true;
+        SetDisableVariables();
       }
     }
 
@@ -95,6 +92,13 @@ public class TutorialManager : MonoBehaviour
     {
       m_Timer = 0f;
       m_EnableText = true;
+    }
+
+    void SetDisableVariables()
+    {
+      m_Timer = 0f;
+      m_EnableText = false;
+      m_RemoveText = true;
     }
 
     //Waypoints that enable various tasks, but don't
