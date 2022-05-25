@@ -11610,7 +11610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4789949283517760700, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
       propertyPath: m_Name
-      value: TheForest
+      value: ForestScene
       objectReference: {fileID: 0}
     - target: {fileID: 5599941147197805219, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
@@ -15389,7 +15389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4789949283517760700, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
       propertyPath: m_Name
-      value: ThePond
+      value: PondScene
       objectReference: {fileID: 0}
     - target: {fileID: 5599941147197805219, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
       propertyPath: TriggerModule.primitives.Array.data[0]
