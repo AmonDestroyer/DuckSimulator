@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public Transform startSpawnPoint;
     public GameObject projectile;
 
+    private static GameObject sampleInstance;
     private Rigidbody player;
     private Animator m_Animator;
     private Transform spawnPoint;
@@ -39,28 +40,37 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     private float movementX, movementY;
     private float lookX, lookY;
-    private bool isSprint;
-    private bool isCrouch;
     // jump variables
-    private bool onGround;
     private bool isGlide;
     private int jumpCurrent;
     private float gravOpposite;
     private Vector3 gravStr;
     private InputAction jumpAction;
+    private bool doJump;
+    private bool isJumpPressed;
     private InputAction sprintAction;
+    private bool isSprintPressed;
     private InputAction crouchAction;
+    private bool isCrouchPressed;
+    private float powerSlideTimerMax = 0.5f;
+    private float powerSlideTimer = 0.0f;
     private InputAction fireAction;
+    private bool doFire;
+    private bool isFirePressed;
+    private bool doMelee;
     //private PlayerShootObserver m_PlayerShootObserver;
     private MeleeObserver m_PlayerMeleeObserver;
     private MeleeScope m_PlayerMeleeScope;
     private Ejaculator m_Ejaculator;
     // for linear interpolation shots (i.e. charge shots)
-    private float m_Firepower_lower = 100f;
+    private float m_Firepower_lower = 500f;
     private float m_Firepower_upper = 2000f;
-    private float m_LMBpress_max = 2.0f;
+    private float m_LMBpress_max = 1.0f;
     private float m_LMBpress = 0.0f;
     private bool m_charge = false;
+    private float m_chargeResetTime = 0.0f;
+    private float m_chargeResetTimeMax = 1.0f;
+    private bool resetSlider = false;
     // UI Update items
     private Slider m_slider;
 
@@ -71,6 +81,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if (sampleInstance != null) {
+            Destroy(sampleInstance);
+        }
+        sampleInstance = gameObject;
+        DontDestroyOnLoad(this);
         jumpAction = playerInput.currentActionMap["Jump"];
         fireAction = playerInput.currentActionMap["Fire"];
         sprintAction = playerInput.currentActionMap["Sprint"];
@@ -94,6 +109,7 @@ public class PlayerController : MonoBehaviour
         m_PlayerMeleeObserver.targetRange = 5.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
         m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
+        
 
         //Debug.Log($"{m_PlayerShootObserver.targetTag}, {m_PlayerShootObserver.targetRange}");
     }
@@ -131,15 +147,14 @@ public class PlayerController : MonoBehaviour
     {
         // Resets all movement factors on player
         player.velocity = Vector3.zero;
-        isSprint = false;
-        isCrouch = false;
+        isSprintPressed = false;
+        isCrouchPressed = false;
     }
     // JUMP functions
 
     private void OnGroundTouch()
     {
         // things to happen when player touches ground objects
-        onGround = true;
         jumpCurrent = 0;
         isGlide = false;
     }
@@ -150,7 +165,6 @@ public class PlayerController : MonoBehaviour
         //change
         Vector3 jump = new Vector3(player.velocity.x, jumpHeight, player.velocity.z);
         player.velocity = jump;
-        onGround = false; // used to reset jumps AND for glide
         jumpCurrent += 1; // used to limit number of jumps
     }
 
@@ -158,41 +172,36 @@ public class PlayerController : MonoBehaviour
     {
         // what players do when gliding
         isGlide = true; // for update usage
-        jumpCurrent = jumpNum; // no more jumping while gliding
         // stops vertical acceleration
         Vector3 vert_cancel = new Vector3(movementX, 0.0f, movementY);
         player.velocity = vert_cancel;
         // used for making gravity calculation over time
-        gravOpposite = 0.0f;
+        gravOpposite = 1.0f;
+    }
+    
+    void MeleeAction() {
+        m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.getTriggerList();
+        m_PlayerMeleeObserver.CollisionCheck();
+    }
+
+    void FireAction() {
+        m_Ejaculator.SetVelocity(Mathf.Lerp(m_Firepower_lower, m_Firepower_upper, (m_LMBpress/m_LMBpress_max)));
+        m_Ejaculator.Ejaculate();
     }
 
     void OnJump()
     {
-        // if already in the air and out of jumps, glide instantly
+        
         jumpAction.started += context => {
-            if(onGround == false && jumpCurrent == jumpNum) {
-                GlideAction();
+            if(jumpCurrent < jumpNum) {
+                doJump = true; // do a jump!
             }
-        };
-        jumpAction.performed += context => {
-            if (context.interaction is HoldInteraction) {
-                // if player holds jump, glide starts; no more jumps allowed!
-                if(onGround == false && isGlide == false) {
-                    GlideAction();
-                    if(debug)
-                        Debug.Log($"Is gliding!");
-                }
-            }
-            else if (context.interaction is PressInteraction) {
-                if(jumpCurrent < jumpNum) {
-                    // if player taps jump, and has jumps left, jump!
-                    JumpAction();
-                }
-            }
+            isJumpPressed = true; // as long as jump is held
         };
         jumpAction.canceled += context => {
             // if player lets go of jump, glide stops
-            isGlide = false;
+            isJumpPressed = false;
+            
         };
 
     }
@@ -203,35 +212,34 @@ public class PlayerController : MonoBehaviour
         if (enableFire) {
             fireAction.started += context => {
                 m_LMBpress = 0.0f;
-            };
-            fireAction.performed += context => {
                 m_charge = true;
+                resetSlider = false;
+                m_chargeResetTime = 0.0f;
             };
             fireAction.canceled += context => {
+                resetSlider = true;
                 m_charge = false;
-                m_Ejaculator.SetVelocity(Mathf.Lerp(m_Firepower_lower, m_Firepower_upper, (m_LMBpress/m_LMBpress_max)));
-                m_Ejaculator.Ejaculate();
+                doFire = true;
             };
         }
     }
 
     void OnMelee() {
-        //filler function - currently attached to 'v'
-        m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.getTriggerList();
-        m_PlayerMeleeObserver.CollisionCheck();
+        doMelee = true;
     }
 
     // SPRINT functions
     void OnSprint()
     {
         sprintAction.started += context => {
-            isSprint = true;
-            m_Animator.SetBool("Walk", false);
-            m_Animator.SetBool("Run", true);
+            if(isCrouchPressed == false) {
+                isSprintPressed = true;
+                m_Animator.SetBool("Walk", false);
+                m_Animator.SetBool("Run", true);
+            }
         };
-
         sprintAction.canceled += context => {
-            isSprint = false;
+            isSprintPressed = false;
             m_Animator.SetBool("Walk", true);
             m_Animator.SetBool("Run", false);
         };
@@ -241,11 +249,13 @@ public class PlayerController : MonoBehaviour
     void OnCrouch()
     {
         crouchAction.started += context => {
-            isCrouch = true;
+            isCrouchPressed = true;
+            powerSlideTimer = 0.0f;
         };
 
         crouchAction.canceled += context => {
-            isCrouch = false;
+            isCrouchPressed = false;
+            isSprintPressed = false;
         };
     }
 
@@ -277,6 +287,17 @@ public class PlayerController : MonoBehaviour
     {
         Physics.gravity = gravStr;
         movement = transform.forward * movementY + transform.right * movementX;
+        if(doJump) {
+            JumpAction();
+            doJump = false;
+        }
+
+        if(isJumpPressed && isCrouchPressed) { // checks for gliding
+            GlideAction();
+        } else {
+            isGlide = false;
+        }
+
         if(isGlide == true) {
             // for glide; might put elsewhere later on
             gravOpposite =  (((player.velocity.y) * (gravityStrength * player.mass))  / ((gravityStrength) * glideMulti)) * -1.0f;
@@ -284,16 +305,19 @@ public class PlayerController : MonoBehaviour
             player.AddForce(glide, ForceMode.Force);
         }
 
-        if(isSprint == true)
-        {
+        if(isSprintPressed && isCrouchPressed && !isGlide) {
+            if(powerSlideTimer <= powerSlideTimerMax) { // power slide!
+                powerSlideTimer += Time.deltaTime;
+                player.MovePosition(player.position + movement * sprintSpeed * 2);
+            } else {
+                isSprintPressed = false;
+                isCrouchPressed = false;
+            }
+        } else if(isSprintPressed == true && isGlide == false) {
             player.MovePosition(player.position + movement * sprintSpeed);
-        }
-        else if(isCrouch == true)
-        {
+        } else if(isCrouchPressed == true && isGlide == false) {
             player.MovePosition(player.position + movement * crouchSpeed);
-        }
-        else
-        {
+        } else {
             player.MovePosition(player.position + movement * walkSpeed);
         }
         if(m_charge) {
@@ -305,11 +329,27 @@ public class PlayerController : MonoBehaviour
             //Update UI
             m_slider.value = Mathf.Lerp(0.0f,1.0f,(m_LMBpress/m_LMBpress_max));
         }
+        if(doFire) {
+            FireAction();
+            doFire = false;
+        }
+        if(doMelee) {
+            MeleeAction();
+            doMelee = false;
+        }
+        if(resetSlider) {
+            if(m_chargeResetTimeMax > m_chargeResetTime) {
+                m_chargeResetTime += Time.deltaTime;
+            } else {
+                resetSlider = false;
+                m_slider.value = 0;
+            }
+        }
         // animation components (messy rn and impromptu)
         bool moving = (movementY > 0) || (movementX > 0);
         if(moving)
         {
-            if(isSprint == true) {
+            if(isSprintPressed == true) {
                 m_Animator.SetBool("Walk", !moving);
                 m_Animator.SetBool("Run", moving);
             }
@@ -342,6 +382,7 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.CompareTag("Ground")) {
             OnGroundTouch();
+            Debug.Log("Touched the ground!");
         }
         if(other.gameObject.CompareTag("Death")){
             player.position = spawnPoint.position;

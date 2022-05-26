@@ -11,6 +11,8 @@ public class TutorialManager : MonoBehaviour
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
     public CanvasGroup black;
+    public GameObject sampleInstance;
+    //public NeverUnloadSceneManager MainManager;
 
     // Private Variables
     private PlayerController player;
@@ -24,7 +26,9 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+      //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
       player = GetComponent<PlayerController>();
+      sampleInstance = gameObject;
       player.jumpNum = 0;
       player.enableFire = false;
       player.sprintSpeed = player.walkSpeed;
@@ -54,11 +58,15 @@ public class TutorialManager : MonoBehaviour
         m_CompletionTimer += Time.deltaTime;
         if (m_CompletionTimer > holdDuration)
         {
-          black.alpha = (m_CompletionTimer-holdDuration)/fadeDuration;
+          if(black != null) {
+            black.alpha = (m_CompletionTimer-holdDuration)/fadeDuration;
+          }
         }
         if (m_CompletionTimer > (holdDuration + fadeDuration)){
           Debug.Log("Scene Completed");
+          //MainManager.EndMainScene();
           SceneManager.LoadScene("MainScene");
+          Destroy(sampleInstance);
         }
       }
     }
