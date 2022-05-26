@@ -120,7 +120,7 @@ public class TutorialManager : MonoBehaviour
     // Functions that are done at various checkpoints for the tutorial
     void EnableJump()
     {
-      player.jumpNum = 3;
+      player.jumpNum = 1;
       locationText.text = "Feathers" + "\n" +
       "You have collected a feather, feathers can be used to unlock/upgrade abilities. " +
       "Here the jump has been unlocked.";
