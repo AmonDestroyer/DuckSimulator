@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/NeverUnload.unity
-    guid: 5ac7237a715f7854789ad7278885f862
-  - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
@@ -20,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PondScene.unity
     guid: 583b02ff5eddccd419c35ee5c5124748
+  - enabled: 1
+    path: Assets/Scenes/NeverUnload.unity
+    guid: 5ac7237a715f7854789ad7278885f862
   - enabled: 0
     path: Assets/Scenes/PoCLevelScene.unity
     guid: ea0b7b369d3dbbd4cbd1a1ca22d03c17
