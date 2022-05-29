@@ -37,6 +37,7 @@ public class TutorialManager : MonoBehaviour
       m_playerController.enableFire = false;
       m_playerController.sprintSpeed = m_playerController.walkSpeed;
       m_playerController.startSpawnPoint = GameObject.Find("StartSpawnPoint").transform;
+      m_playerController.Respawn();
 
       locationText.text = "Use WASD to move" + "\n" + "Use Mouse to look";
     }

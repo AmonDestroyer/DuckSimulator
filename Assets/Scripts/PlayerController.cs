@@ -399,6 +399,10 @@ public class PlayerController : MonoBehaviour
         UpdateHealth();
     }
 
+    public void Respawn() {
+        player.position = spawnPoint.position;
+    }
+    
     void OnDisable() {
         Debug.Log("Script disabled");
     }
@@ -406,4 +410,5 @@ public class PlayerController : MonoBehaviour
     void OnEnable() {
         Debug.Log("Script enabled");
     }
+
 }
