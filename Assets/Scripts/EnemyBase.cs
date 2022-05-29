@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    public float enemySpeed = 3.0f;
-    public float enemyLookSpeed = 0.75f;
-    public float approachRadius = 100.0f;
-    public float stopRadius = 1.5f; // want stop radius to be less than attack radius
+    public float enemySpeed = 4.2f;
+    public float enemyLookSpeed = 1.5f;
+    public float approachRadius = 175.0f;
+    public float stopRadius = 0f; // want stop radius to be less than attack radius
 
     public float health = 1.0f;
   
@@ -30,6 +30,13 @@ public class EnemyBase : MonoBehaviour
     public float attackStaminaCost = 0.9f;
     public bool attacking = false;
     private int countAttacks = 0;
+
+    //SECTION FOR ENEMY ANIMATIONS
+    public int startPosition = 3; // sets the enemies starting position, 3 = Sitting, 5 = Walk
+    private Animator m_ani; // see readMe in simple modular human package for more options
+    bool m_walkActivated = false;
+    bool m_lookAlternator = true;
+    bool m_isLooking = false; // USE THIS TO PREVENT CALLING MULTIPLE COROUTINES!
     
 
 
@@ -42,6 +49,9 @@ public class EnemyBase : MonoBehaviour
 
         enemyMeleeObserver = new MeleeObserver(gameObject, meleeForce, damage);
         enemyMeleeScope = GetComponentInChildren<MeleeScope>();
+        m_ani = GetComponentInChildren<Animator>();
+        SetStartingPosition();
+
         enemyMeleeObserver.targetRange = attackRadius;
         enemyMeleeObserver.targetTag = "Player";
         enemyMeleeObserver.sourceTransform = GetComponent<Transform>();
@@ -67,6 +77,18 @@ public class EnemyBase : MonoBehaviour
         float distanceUnrooted = Vector3.Dot(distanceVector, distanceVector);
         // I omit the square root part of the distance equation to reduce overhead
         if(distanceUnrooted < approachRadius && distanceUnrooted > stopRadius){ 
+
+            
+            if(m_isLooking){
+                StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
+                StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
+
+                m_isLooking = false;
+            }
+
+            ActivateWalk();
+            m_walkActivated = true;
+
             float step =  enemySpeed * Time.fixedDeltaTime;
             float rotateStep = enemyLookSpeed * Time.fixedDeltaTime;
             RotateTowardsPlayer(rotateStep); // used seperate method here in case we want
@@ -75,12 +97,25 @@ public class EnemyBase : MonoBehaviour
 
             
 
+        } else if(m_walkActivated){
+            ActivateIdle();
+            Debug.Log("Activating Idle");
+            m_walkActivated = false;
+            if(!m_isLooking){
+                StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
+                StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
+                
+                StartCoroutine("LookingAroundCoroutine");
+                m_isLooking = true;
+            }
+            
         }
         // ENEMY ATTACK GOES HERE
         if(distanceUnrooted < attackRadius && this.stamina > attackStaminaCost){    
             Debug.Log("ENEMY ATTACKED!");  
             Debug.Log("TEST: Stamina value = " + this.stamina + ", attackStaminaCost = " + attackStaminaCost + " # of attacks = " + countAttacks);         
             Attack();
+            ActivateHit();
             attacking = true;
             this.stamina -= attackStaminaCost;
             ++countAttacks;
@@ -88,9 +123,12 @@ public class EnemyBase : MonoBehaviour
     }
 
     protected void RotateTowardsPlayer(float step){
+        
          Vector3 targetDirection = (player.transform.position - this.transform.position);
          Vector3 newDirection = Vector3.RotateTowards(this.transform.forward, targetDirection, step, 0.0f);
+         newDirection.y = 0; //this prevents enemy from flipping around because they want to loop up/down
          this.transform.rotation = Quaternion.LookRotation(newDirection);
+         
     }
 
     void Attack(){
@@ -106,6 +144,56 @@ public class EnemyBase : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
         rb.AddForce(Vector3.up * 1f, ForceMode.Impulse);
+        if(this.transform.position.y > 420){ //deactivate enemy when they get high to lower overhead
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    void ActivateWalk(){
+        m_ani.SetInteger("arms", 1); // this sets the arms animation to setting 1 - walk
+        m_ani.SetInteger("legs", 1); // see the readMe in the simple modular human package
+    }
+
+    void ActivateIdle(){
+        m_ani.SetInteger("arms", 5);
+        m_ani.SetInteger("legs", 5);
+    }
+
+    void ActivateHit(){
+        m_ani.SetInteger("arms", 14);
+    }
+
+    void SetStartingPosition(){
+        m_ani.SetInteger("arms", startPosition);
+        m_ani.SetInteger("legs", startPosition);
+    }
+
+    IEnumerator LookingAroundCoroutine(){
+        Debug.Log("Called Looking around coroutine");
+
+        yield return new WaitForSeconds(Random.Range(5, 10));
+
+
+        if(m_lookAlternator){ // need to alternate between animations to keep look animation going
+            m_ani.SetInteger("arms", 9);
+            m_lookAlternator = false;
+        } else{
+            m_ani.SetInteger("arms", 10);
+            m_lookAlternator = true;
+        }
+
+        if(m_isLooking){
+            StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
+            StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
+            m_isLooking = false;
+        }
+
+        if(!m_isLooking){
+            StartCoroutine("LookingAroundCoroutine");
+            m_isLooking = true;
+        }
+        
+
     }
 
 }
