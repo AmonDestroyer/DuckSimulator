@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LowPolyWaterMaterial
-  m_Shader: {fileID: 4800000, guid: 16516895e8a79bf49a6562c3c3b84cbf, type: 3}
+  m_Shader: {fileID: 14000, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
@@ -44,6 +44,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -131,6 +135,7 @@ Material:
     m_Floats:
     - _Ambient: 1
     - _BumpScale: 1
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _Displacement: 0.27863377
@@ -172,6 +177,7 @@ Material:
     - _WaveLength: 0.5
     - _WaveScale: 0.046289656
     - _WaveSpeed: 1
+    - _WindQuality: 0
     - _ZWrite: 1
     - _isInnerAlphaBlendOrColor: 0
     m_Colors:
@@ -200,6 +206,7 @@ Material:
     - _GSpeed: {r: -3, g: 2, b: 1, a: 3}
     - _GSteepness: {r: 7, g: 2, b: 6, a: 2}
     - _HorizonColor: {r: 0.052907113, g: 0.24486735, b: 0.2835821, a: 1}
+    - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
     - _InvFadeParemeter: {r: 0.67, g: 0.17, b: 27.39, a: 9.18}
     - _MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
     - _ReflectionColor: {r: 0.5794164, g: 0.6849238, b: 0.76119405, a: 0.43137255}

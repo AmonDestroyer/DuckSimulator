@@ -14633,6 +14633,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1390226200768208669, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
+      propertyPath: newScene
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390226200768208669, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
+      propertyPath: currentScene
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4060304073101719483, guid: fa43b30dc0e7d5347a5e13aa8c397dad, type: 3}
       propertyPath: m_RootOrder
       value: 0

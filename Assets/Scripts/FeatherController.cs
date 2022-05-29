@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class FeatherController : MonoBehaviour
 {   
-    public GameObject HUD;
     private HUDController hudController;
     
     void Start(){
-        //hudController = HUD.GetComponent<HUDController>();
+        hudController = GameObject.Find("HUD").GetComponent<HUDController>();
     }
 
     void Update()
@@ -25,7 +24,6 @@ public class FeatherController : MonoBehaviour
             // make feather dissapear
             this.gameObject.SetActive(false);
             // update feather count in HUD
-            hudController = HUD.GetComponent<HUDController>();
             hudController.featherCount = hudController.featherCount + 1;
             hudController.SetCountText();
         }

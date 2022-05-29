@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     public Transform player;
+    public int newScene;
+    public int currentScene;
     //public NeverUnloadSceneManager MainManager;
-    public AsyncOperation asyncLoad;
+    public AnySceneManager anySceneManager;
 
     void Start() {
-      //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
+      anySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
     }
 
     void OnUpdate(){
@@ -19,9 +21,8 @@ public class Portal : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
       //Loads the appropraite scene when the player touches the portal
-      if(other.gameObject.CompareTag("Player")){
-        asyncLoad = SceneManager.LoadSceneAsync(gameObject.name);
-        //MainManager.UnloadTargetScene(gameObject.name);
+      if(other.gameObject.CompareTag("Player")) {
+        anySceneManager.TransitionScene(newScene, currentScene);
       }
     }
 
