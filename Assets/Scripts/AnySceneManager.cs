@@ -13,59 +13,91 @@ public class AnySceneManager : MonoBehaviour
     public CanvasGroup black;
     public TextMeshProUGUI LoadPercentage;
     public GameObject player;
+    public GameObject ui_interface;
+    public GameObject camera;
     
     public float fadeDuration = 2f; //Controls fade in and out duration.
 
     // for loading purposes
     private AsyncOperation m_AsyncLoad;
-    private bool m_GameStart;
     private bool m_FadeOut;
+    private bool m_LoadScene;
     private bool m_FadeIn;
+    private bool m_ActivatePlayer;
     private float m_Timer;
     private float m_LoadProgress;
+    private int m_NewScene;
+    private int m_CurrentScene;
     
 
     void Awake() {
         anySceneManager = this;
         player.SetActive(false);
+        ui_interface.SetActive(false);
+        camera.SetActive(false);
         SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive); // main menu load
         m_FadeOut = false;
+        m_LoadScene = false;
         m_FadeIn = false;
-        m_GameStart = true;
+        m_ActivatePlayer = false;
         m_LoadProgress = 0.0f;
         Cursor.lockState = CursorLockMode.None;
     }
 
     void FixedUpdate() {
-        if(m_LoadProgress == 1f) { // fade out complete; fade in
-            m_Timer = 0.0f;
-            m_FadeOut = false;
-            m_FadeIn = true;
-      }
         if(m_FadeOut) { // controls fade out of scene
             m_Timer += Time.deltaTime;
             black.alpha = m_Timer/fadeDuration;
-            m_LoadProgress = m_AsyncLoad.progress;
+
+            if(black.alpha == 1) { // fade-out complete; start fade-in
+                Debug.Log($"Fade-out complete! {black.alpha}");
+                if(m_ActivatePlayer) {
+                    player.SetActive(true); // otherwise, enable
+                    ui_interface.SetActive(true);
+                    camera.SetActive(true);
+                } else {
+                    player.SetActive(false); // disable player at menu
+                    ui_interface.SetActive(false);
+                    camera.SetActive(false);
+                }
+                LoadScene(m_NewScene); // fade completed; load new scene
+                UnloadScene(m_CurrentScene);
+                m_Timer = 0.0f;
+                m_FadeOut = false;
+                m_LoadScene = true;
+            }
+        }
+        if(m_LoadScene) {
             Debug.Log($"{m_LoadProgress}");
+            m_LoadProgress = m_AsyncLoad.progress;
             LoadPercentage.text = m_LoadProgress*100f + "%";
+            if(m_LoadProgress == 1f) { // scene loaded; fade in
+                m_LoadScene = false;
+                m_FadeIn = true;
+            }
         }
         if(m_FadeIn) {
             m_Timer += Time.deltaTime;
-            black.alpha = 1 - m_Timer/fadeDuration;
-            if (m_Timer > fadeDuration) // done fading in
+            black.alpha = 1 - (m_Timer/fadeDuration);
+            Debug.Log($"Fade-in: {black.alpha}");
+            if (black.alpha == 0) { // done fading in
+                Debug.Log("Fade-in complete!");
                 m_FadeIn = false;
-                black.alpha = 0;
+            }
         }
+
     }
 
     public void TransitionScene(int newScene, int currentScene) {
-        if(newScene == 1) {
-            player.SetActive(false); // disable player at menu
+        if(newScene != 1) {
+            m_ActivatePlayer = true;
         } else {
-            player.SetActive(true); // otherwise, enable
+            m_ActivatePlayer = false;
         }
-        LoadScene(newScene);
-        UnloadScene(currentScene);
+        m_Timer = 0f;
+        m_NewScene = newScene;
+        m_CurrentScene = currentScene;
+        m_FadeOut = true;
     }
 
     void UnloadScene(int scene) {
@@ -73,8 +105,6 @@ public class AnySceneManager : MonoBehaviour
     }
     
     void LoadScene(int scene) {
-        m_Timer = 0f;
-        m_FadeOut = true;
         Debug.Log($"Loading: {scene}");
         m_AsyncLoad = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
     }
