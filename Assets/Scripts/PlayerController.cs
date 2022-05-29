@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public bool enableFire = true;
     public PlayerInput playerInput;
     public GameObject meleeScope;
-    public Transform startSpawnPoint;
+    public Transform startSpawnPoint; // default spawn point
     public GameObject projectile;
 
     private static GameObject sampleInstance;
@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
         fireAction = playerInput.currentActionMap["Fire"];
         sprintAction = playerInput.currentActionMap["Sprint"];
         crouchAction = playerInput.currentActionMap["Crouch"];
+        startSpawnPoint = transform;
         player = GetComponent<Rigidbody>();
         m_Animator = GetComponentInChildren(typeof(Animator)) as Animator;
         /*
@@ -396,5 +397,13 @@ public class PlayerController : MonoBehaviour
     public void ApplyDamage(float damage){
         health -= damage;
         UpdateHealth();
+    }
+
+    void OnDisable() {
+        Debug.Log("Script disabled");
+    }
+
+    void OnEnable() {
+        Debug.Log("Script enabled");
     }
 }

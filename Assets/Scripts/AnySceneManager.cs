@@ -12,6 +12,8 @@ public class AnySceneManager : MonoBehaviour
     //fade in/fade out control
     public CanvasGroup black;
     public TextMeshProUGUI LoadPercentage;
+    public GameObject player;
+    
     public float fadeDuration = 2f; //Controls fade in and out duration.
 
     // for loading purposes
@@ -25,7 +27,7 @@ public class AnySceneManager : MonoBehaviour
 
     void Awake() {
         anySceneManager = this;
-
+        player.SetActive(false);
         SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive); // main menu load
         m_FadeOut = false;
         m_FadeIn = false;
@@ -34,29 +36,34 @@ public class AnySceneManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    void Update() {
-        if(m_LoadProgress == 100f) { // fade out complete; fade in
+    void FixedUpdate() {
+        if(m_LoadProgress == 1f) { // fade out complete; fade in
+            m_Timer = 0.0f;
             m_FadeOut = false;
             m_FadeIn = true;
       }
-    }
-
-    void FixedUpdate() {
         if(m_FadeOut) { // controls fade out of scene
             m_Timer += Time.deltaTime;
             black.alpha = m_Timer/fadeDuration;
             m_LoadProgress = m_AsyncLoad.progress;
-            LoadPercentage.text = m_LoadProgress + "%";
+            Debug.Log($"{m_LoadProgress}");
+            LoadPercentage.text = m_LoadProgress*100f + "%";
         }
         if(m_FadeIn) {
             m_Timer += Time.deltaTime;
             black.alpha = 1 - m_Timer/fadeDuration;
             if (m_Timer > fadeDuration) // done fading in
                 m_FadeIn = false;
+                black.alpha = 0;
         }
     }
 
     public void TransitionScene(int newScene, int currentScene) {
+        if(newScene == 1) {
+            player.SetActive(false); // disable player at menu
+        } else {
+            player.SetActive(true); // otherwise, enable
+        }
         LoadScene(newScene);
         UnloadScene(currentScene);
     }

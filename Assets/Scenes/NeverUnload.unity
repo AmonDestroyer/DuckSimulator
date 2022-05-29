@@ -169,8 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   black: {fileID: 787263541}
   LoadPercentage: {fileID: 787263542}
+  player: {fileID: 1067881824}
   fadeDuration: 1
-  holdDuration: 5
 --- !u!1001 &787263540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,6 +284,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1067881824 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7195390855630895626, guid: 09f0161acc2099f458758a954651a26f, type: 3}
+  m_PrefabInstance: {fileID: 1191206456}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1191206456
 PrefabInstance:
   m_ObjectHideFlags: 0
