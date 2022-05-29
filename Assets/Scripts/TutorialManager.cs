@@ -11,27 +11,31 @@ public class TutorialManager : MonoBehaviour
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
     public CanvasGroup black;
-    public GameObject sampleInstance;
     //public NeverUnloadSceneManager MainManager;
 
     // Private Variables
-    private PlayerController player;
-    private float m_Timer = 0f;
+    
+    private PlayerController m_playerController;
     private float m_CompletionTimer = 0f;
+    private float m_Timer = 0f;
     private bool m_RemoveText=false;
     private bool m_EnableText=false;
     private bool m_Completed=false;
-    private bool m_fadeIn = true;
+    private AnySceneManager m_AnySceneManager;
 
     // Start is called before the first frame update
     void Start()
     {
+      m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
+
+      if(m_AnySceneManager == null) { // try again, but with inactive objects too
+        m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager), true) as AnySceneManager;
+      }
       //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
-      player = GetComponent<PlayerController>();
-      sampleInstance = gameObject;
-      player.jumpNum = 0;
-      player.enableFire = false;
-      player.sprintSpeed = player.walkSpeed;
+      m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+      m_playerController.jumpNum = 0;
+      m_playerController.enableFire = false;
+      m_playerController.sprintSpeed = m_playerController.walkSpeed;
 
       locationText.text = "Use WASD to move" + "\n" + "Use Mouse to look";
     }
@@ -39,13 +43,6 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if(m_fadeIn)
-      {
-        m_Timer += Time.deltaTime;
-        black.alpha = 1 - m_Timer/fadeDuration;
-        if (m_Timer > fadeDuration)
-          m_fadeIn = false;
-      }
 
       if (m_RemoveText)
       {
@@ -54,22 +51,14 @@ public class TutorialManager : MonoBehaviour
       else if (m_EnableText){
         EnableText();
       }
-      if (m_Completed){
-        m_CompletionTimer += Time.deltaTime;
-        if (m_CompletionTimer > holdDuration)
-        {
-          if(black != null) {
-            black.alpha = (m_CompletionTimer-holdDuration)/fadeDuration;
-          }
-        }
+
         if (m_CompletionTimer > (holdDuration + fadeDuration)){
           Debug.Log("Scene Completed");
           //MainManager.EndMainScene();
-          SceneManager.LoadScene("MainScene");
-          Destroy(sampleInstance);
+          m_AnySceneManager.TransitionScene(1, 2);;
         }
-      }
     }
+    
 
     //Text Modifications
     void DisableText(){
@@ -120,7 +109,7 @@ public class TutorialManager : MonoBehaviour
     // Functions that are done at various checkpoints for the tutorial
     void EnableJump()
     {
-      player.jumpNum = 1;
+      m_playerController.jumpNum = 1;
       locationText.text = "Feathers" + "\n" +
       "You have collected a feather, feathers can be used to unlock/upgrade abilities. " +
       "Here the jump has been unlocked.";
@@ -137,7 +126,7 @@ public class TutorialManager : MonoBehaviour
 
     void EnableSprint()
     {
-      player.sprintSpeed *= 2;
+      m_playerController.sprintSpeed *= 2;
       locationText.text = "Sprinting" + "\n" +
       "Use SHIFT to sprint so you can dodge.";
       SetEnableVariables();
@@ -145,7 +134,7 @@ public class TutorialManager : MonoBehaviour
 
     void EnableBow()
     {
-      player.enableFire = true;
+      m_playerController.enableFire = true;
       locationText.text = "Bow" + "\n" +
       "The is a weapon that can be used to fire arrows at enemies using " +
       "Left Mouse Button.";
@@ -202,6 +191,5 @@ public class TutorialManager : MonoBehaviour
           break;
       }
     }
-
 
 }

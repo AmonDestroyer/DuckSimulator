@@ -2,42 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
-    public Button m_BtnTutorial;
-    public Button m_BtnNewGame;
-    public int fadeTime = 3;
-    public CanvasGroup black;
-    public TextMeshProUGUI LoadPercentage;
-    //public NeverUnloadSceneManager MainManager;
-
+    public Button btnTutorial;
+    public Button btnNewGame;
+    //public int fadeTime = 3;
+    //public CanvasGroup black;
+    //public TextMeshProUGUI LoadPercentage;
+    private AnySceneManager m_AnySceneManager;
+    /*
     private bool fade = false;
     private float m_Timer;
     private string loadScene = "";
     private AsyncOperation asyncLoad;
-
+    */
     // Start is called before the first frame update
     void Start()
     {
       //black = GetComponent<CanvasGroup>();
       //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
-      m_BtnTutorial.onClick.AddListener(LaunchTutorial);
-      m_BtnNewGame.onClick.AddListener(NewGame);
+      btnTutorial.onClick.AddListener(LaunchTutorial);
+      btnNewGame.onClick.AddListener(NewGame);
       Cursor.lockState = CursorLockMode.None;//locked by the playerController script
+
+      m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
+
+      if(m_AnySceneManager == null) { // try again, but with inactive objects too
+        m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager), true) as AnySceneManager;
+      }
     }
 
     // Update is called once per frame
     void Update()
     {
-      if(fade){
-        m_Timer += Time.deltaTime;
-        black.alpha = m_Timer/fadeTime;
-        float loadProgress = asyncLoad.progress;
-        LoadPercentage.text = loadProgress + "%";
-      }
+ 
     }
 
     /*
@@ -46,22 +46,22 @@ public class MainMenuController : MonoBehaviour
     void LaunchTutorial()
     {
       //MainManager.StartMainScene();
-      loadScene = "TutorialScene";
-      LoadScene();
+      //loadScene = "TutorialScene";
+      m_AnySceneManager.TransitionScene(2, 1);
     }
 
     void NewGame()
     {
       //MainManager.StartMainScene();
-      loadScene = "HomeBaseScene";
-      LoadScene();
+      //loadScene = "HomeBaseScene";
+      m_AnySceneManager.TransitionScene(3, 1);
     }
 
-    void LoadScene()
+    /*void LoadScene()
     {
       Debug.Log($"Loading: {loadScene}");
       asyncLoad = SceneManager.LoadSceneAsync(loadScene);
       m_Timer = 0f;
       fade = true;
-    }
+    }*/
 }

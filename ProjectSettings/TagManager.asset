@@ -14,6 +14,7 @@ TagManager:
   - waypoint
   - Water
   - Secret
+  - sceneManager
   layers:
   - Default
   - TransparentFX

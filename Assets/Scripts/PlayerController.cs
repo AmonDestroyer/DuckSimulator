@@ -81,11 +81,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (sampleInstance != null) {
-            Destroy(sampleInstance);
-        }
-        sampleInstance = gameObject;
-        DontDestroyOnLoad(this);
         jumpAction = playerInput.currentActionMap["Jump"];
         fireAction = playerInput.currentActionMap["Fire"];
         sprintAction = playerInput.currentActionMap["Sprint"];
