@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     private static GameObject sampleInstance;
     private Rigidbody player;
     private Animator m_Animator;
-    private Transform spawnPoint;
+    public Transform spawnPoint;
     private Transform m_ProjectileOrigin;
     private Transform m_ProjectileAnchor;
     // movement variables
