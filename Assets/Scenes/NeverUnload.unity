@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   black: {fileID: 489215527}
-  LoadPercentage: {fileID: 0}
+  LoadPercentage: {fileID: 1874184256}
   player: {fileID: 1067881824}
   ui_interface: {fileID: 1676200087}
   camera: {fileID: 1071856422}
@@ -408,3 +408,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+--- !u!114 &1874184256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1432874220131299144, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+  m_PrefabInstance: {fileID: 1874184255}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
