@@ -11,16 +11,16 @@ public class TutorialManager : MonoBehaviour
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
     public CanvasGroup black;
-    //public NeverUnloadSceneManager MainManager;
 
     // Private Variables
-    
     private PlayerController m_playerController;
     private float m_CompletionTimer = 0f;
     private float m_Timer = 0f;
     private bool m_RemoveText=false;
     private bool m_EnableText=false;
     private bool m_Completed=false;
+
+    // Scene Manager
     private AnySceneManager m_AnySceneManager;
 
     // Start is called before the first frame update
@@ -36,7 +36,7 @@ public class TutorialManager : MonoBehaviour
       m_playerController.jumpNum = 0;
       m_playerController.enableFire = false;
       m_playerController.sprintSpeed = m_playerController.walkSpeed;
-      m_playerController.startSpawnPoint = GameObject.Find("StartSpawnPoint").transform;
+      m_playerController.spawnPoint = GameObject.Find("StartSpawnPoint").transform;
       m_playerController.Respawn();
 
       locationText.text = "Use WASD to move" + "\n" + "Use Mouse to look";
@@ -60,7 +60,7 @@ public class TutorialManager : MonoBehaviour
           m_AnySceneManager.TransitionScene(1, 2);;
         }
     }
-    
+
 
     //Text Modifications
     void DisableText(){
@@ -111,10 +111,10 @@ public class TutorialManager : MonoBehaviour
     // Functions that are done at various checkpoints for the tutorial
     void EnableJump()
     {
-      m_playerController.jumpNum = 1;
+      m_playerController.jumpNum = 2;
       locationText.text = "Feathers" + "\n" +
-      "You have collected a feather, feathers can be used to unlock/upgrade abilities. " +
-      "Here the jump has been unlocked.";
+      "You have collected a feather!" + "\n" +
+      "Now you can jump using SPACE, try jumping multiple times";
       SetEnableVariables();
     }
 
