@@ -13,6 +13,7 @@ public class Portal : MonoBehaviour
 
     void Start() {
       anySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
+      m_playerController.stdTime();
     }
 
     void OnUpdate(){

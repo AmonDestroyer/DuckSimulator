@@ -32,12 +32,12 @@ public class Menu_ExitController : MonoBehaviour
 
     void Resume()
     {
-      player.GetComponent<PlayerController>().OnMenu();
+      player.GetComponent<PlayerController>().stdTime();
     }
 
     void MainMenu()
     {
-      SceneManager.LoadScene("MainScene");
+      player.GetComponent<PlayerController>().stdTime();
       int currentScene = anySceneManager.m_NewScene;
       anySceneManager.TransitionScene(1, currentScene);
     }

@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         m_PlayerMeleeObserver.targetRange = 5.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
         m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
-        
+
 
         //Debug.Log($"{m_PlayerShootObserver.targetTag}, {m_PlayerShootObserver.targetRange}");
     }
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
         // used for making gravity calculation over time
         gravOpposite = 1.0f;
     }
-    
+
     void MeleeAction() {
         m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.getTriggerList();
         m_PlayerMeleeObserver.CollisionCheck();
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        
+
         jumpAction.started += context => {
             if(jumpCurrent < jumpNum) {
                 doJump = true; // do a jump!
@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
         jumpAction.canceled += context => {
             // if player lets go of jump, glide stops
             isJumpPressed = false;
-            
+
         };
 
     }
@@ -265,13 +265,21 @@ public class PlayerController : MonoBehaviour
         m_ExitMenu.enabled = true;
       }
       else {
-        Time.timeScale = 1.0f;
-        playerInput.SwitchCurrentActionMap("Player");
-        Cursor.lockState = CursorLockMode.Locked;
-        m_HUD.enabled = true;
-        m_ExitMenu.enabled = false;
+        stdTime();
       }
 
+    }
+
+    /*
+    Function used to correct UI and time to standard time.
+    */
+    public void stdTime()
+    {
+      Time.timeScale = 1.0f;
+      playerInput.SwitchCurrentActionMap("Player");
+      Cursor.lockState = CursorLockMode.Locked;
+      m_HUD.enabled = true;
+      m_ExitMenu.enabled = false;
     }
 
     void Update() {
@@ -402,7 +410,7 @@ public class PlayerController : MonoBehaviour
     public void Respawn() {
         player.position = spawnPoint.position;
     }
-    
+
     void OnDisable() {
         Debug.Log("Script disabled");
     }
