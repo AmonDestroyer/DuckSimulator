@@ -15,7 +15,7 @@ public class AnySceneManager : MonoBehaviour
     public GameObject player;
     public GameObject ui_interface;
     public GameObject camera;
-    
+
     public float fadeDuration = 2f; //Controls fade in and out duration.
 
     // for loading purposes
@@ -26,9 +26,11 @@ public class AnySceneManager : MonoBehaviour
     private bool m_ActivatePlayer;
     private float m_Timer;
     private float m_LoadProgress;
-    private int m_NewScene;
-    private int m_CurrentScene;
-    
+    public int m_NewScene;
+    public int m_CurrentScene;
+
+    public bool debug = false;
+
 
     void Awake() {
         anySceneManager = this;
@@ -50,7 +52,8 @@ public class AnySceneManager : MonoBehaviour
             black.alpha = m_Timer/fadeDuration;
 
             if(black.alpha == 1) { // fade-out complete; start fade-in
-                Debug.Log($"Fade-out complete! {black.alpha}");
+                if(debug)
+                    Debug.Log($"Fade-out complete! {black.alpha}");
                 if(m_ActivatePlayer) {
                     player.SetActive(true); // otherwise, enable
                     ui_interface.SetActive(true);
@@ -68,7 +71,8 @@ public class AnySceneManager : MonoBehaviour
             }
         }
         if(m_LoadScene) {
-            Debug.Log($"{m_LoadProgress}");
+            if (debug)
+                Debug.Log($"{m_LoadProgress}");
             m_LoadProgress = m_AsyncLoad.progress;
             LoadPercentage.text = m_LoadProgress*100f + "%";
             if(m_LoadProgress == 1f) { // scene loaded; fade in
@@ -79,9 +83,11 @@ public class AnySceneManager : MonoBehaviour
         if(m_FadeIn) {
             m_Timer += Time.deltaTime;
             black.alpha = 1 - (m_Timer/fadeDuration);
-            Debug.Log($"Fade-in: {black.alpha}");
+            if(debug)
+                Debug.Log($"Fade-in: {black.alpha}");
             if (black.alpha == 0) { // done fading in
-                Debug.Log("Fade-in complete!");
+                if(debug)
+                    Debug.Log("Fade-in complete!");
                 m_FadeIn = false;
             }
         }
@@ -103,15 +109,17 @@ public class AnySceneManager : MonoBehaviour
     void UnloadScene(int scene) {
         StartCoroutine(Unload(scene));
     }
-    
+
     void LoadScene(int scene) {
-        Debug.Log($"Loading: {scene}");
+        if(debug)
+            Debug.Log($"Loading: {scene}");
         m_AsyncLoad = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
     }
 
     IEnumerator Unload(int scene) {
         yield return null;
-        Debug.Log($"Unloading: {scene}");
+        if(debug)
+            Debug.Log($"Unloading: {scene}");
         SceneManager.UnloadSceneAsync(scene);
     }
 };
