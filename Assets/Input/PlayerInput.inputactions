@@ -345,6 +345,17 @@
                 },
                 {
                     "name": "",
+                    "id": "8b55a876-deb8-4fe7-94d0-eeef2179155e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Melee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d2d938b0-ad89-4b55-a7de-6eea6421e0f3",
                     "path": "<Keyboard>/q",
                     "interactions": "",
