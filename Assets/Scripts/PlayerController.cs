@@ -204,20 +204,17 @@ public class PlayerController : MonoBehaviour
     // END JUMP functions
     void OnFire() {
         //filler function - currently attached to LMB
-        //m_PlayerShootObserver.RayCheck();
-        if (enableFire) {
-            fireAction.started += context => {
-                m_LMBpress = 0.0f;
-                m_charge = true;
-                resetSlider = false;
-                m_chargeResetTime = 0.0f;
-            };
-            fireAction.canceled += context => {
-                resetSlider = true;
-                m_charge = false;
-                doFire = true;
-            };
-        }
+        fireAction.started += context => {
+            m_LMBpress = 0.0f;
+            m_charge = true;
+            resetSlider = false;
+            m_chargeResetTime = 0.0f;
+        };
+        fireAction.canceled += context => {
+            resetSlider = true;
+            m_charge = false;
+            doFire = true;
+        };
     }
 
     void OnMelee() {
@@ -324,7 +321,7 @@ public class PlayerController : MonoBehaviour
         } else {
             player.MovePosition(player.position + movement * walkSpeed);
         }
-        if(m_charge) {
+        if(m_charge && enableFire) {
             if(m_LMBpress_max > m_LMBpress) {
                     m_LMBpress += Time.deltaTime;
                 } else {
@@ -333,7 +330,7 @@ public class PlayerController : MonoBehaviour
             //Update UI
             m_slider.value = Mathf.Lerp(0.0f,1.0f,(m_LMBpress/m_LMBpress_max));
         }
-        if(doFire) {
+        if(doFire && enableFire) {
             FireAction();
             doFire = false;
         }
