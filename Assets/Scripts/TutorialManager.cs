@@ -10,7 +10,6 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI locationText;
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
-    public CanvasGroup black;
 
     // Private Variables
     private PlayerController m_playerController;
@@ -23,8 +22,7 @@ public class TutorialManager : MonoBehaviour
     // Scene Manager
     private AnySceneManager m_AnySceneManager;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
       m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
 
@@ -32,13 +30,18 @@ public class TutorialManager : MonoBehaviour
         m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager), true) as AnySceneManager;
       }
       //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
+
+      //Player initial variables
       m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
       m_playerController.jumpNum = 0;
       m_playerController.enableFire = false;
       m_playerController.sprintSpeed = m_playerController.walkSpeed;
       m_playerController.spawnPoint = GameObject.Find("StartSpawnPoint").transform;
       m_playerController.Respawn();
+      m_playerController.stdTime();
 
+      //Set Instructions
+      locationText = GameObject.Find("InstructionText").GetComponentInChildren<TextMeshProUGUI>();
       locationText.text = "Use WASD to move" + "\n" + "Use Mouse to look";
     }
 
@@ -84,6 +87,8 @@ public class TutorialManager : MonoBehaviour
       if (m_Timer > holdDuration)
       {
         SetDisableVariables();
+        if(m_Completed)
+          m_AnySceneManager.TransitionScene(3, 2);
       }
     }
 
@@ -111,7 +116,7 @@ public class TutorialManager : MonoBehaviour
     // Functions that are done at various checkpoints for the tutorial
     void EnableJump()
     {
-      m_playerController.jumpNum = 2;
+      m_playerController.jumpNum = 4;
       locationText.text = "Feathers" + "\n" +
       "You have collected a feather!" + "\n" +
       "Now you can jump using SPACE, try jumping multiple times";
@@ -128,7 +133,7 @@ public class TutorialManager : MonoBehaviour
 
     void EnableSprint()
     {
-      m_playerController.sprintSpeed *= 2;
+      m_playerController.sprintSpeed = 0.4f;
       locationText.text = "Sprinting" + "\n" +
       "Use SHIFT to sprint so you can dodge.";
       SetEnableVariables();

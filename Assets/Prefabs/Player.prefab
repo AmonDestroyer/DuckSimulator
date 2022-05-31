@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 7195390855630895619}
   - component: {fileID: 7195390855630895618}
   - component: {fileID: 7195390855630895620}
+  - component: {fileID: 6583550832391514572}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -279,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455e1ee41cc2a204aa378bc7e01bc411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 1
   health: 1
   healthBar: {fileID: 0}
   jumpHeight: 10
@@ -289,7 +291,6 @@ MonoBehaviour:
   jumpNum: 4
   glideMulti: 0.1
   terminalVelocity: -75
-  debug: 1
   meleeDamage: 0.7
   meleeForce: 42
   enableFire: 1
@@ -297,6 +298,7 @@ MonoBehaviour:
   meleeScope: {fileID: 6731504017017643654}
   startSpawnPoint: {fileID: 0}
   projectile: {fileID: 7826675715453413948, guid: 2e4206efac0261f4ba9fffe85c3f586f, type: 3}
+  spawnPoint: {fileID: 0}
 --- !u!114 &7195390855630895620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +317,22 @@ MonoBehaviour:
   camera: {fileID: 0}
   pitchSpeed: 0.3
   yawSpeed: 0.3
+--- !u!114 &6583550832391514572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7195390855630895626}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243b53931b998b74c9252760eb0575c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locationText: {fileID: 0}
+  fadeDuration: 1
+  holdDuration: 5
+  black: {fileID: 0}
 --- !u!1 &7298932019742419031
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +358,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7298932019742419031}
   m_LocalRotation: {x: 0.034935907, y: -0, z: -0, w: 0.9993896}
-  m_LocalPosition: {x: 0, y: 3.2769995, z: -13}
+  m_LocalPosition: {x: 0, y: 3.2770002, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -377,7 +395,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.2719753, y: 1}
+    m_SensorSize: {x: 1.9287834, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

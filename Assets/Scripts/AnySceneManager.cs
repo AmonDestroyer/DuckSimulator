@@ -78,6 +78,10 @@ public class AnySceneManager : MonoBehaviour
             if(m_LoadProgress == 1f) { // scene loaded; fade in
                 m_LoadScene = false;
                 m_FadeIn = true;
+                if (m_NewScene == 2)
+                  player.GetComponent<TutorialManager>().enabled = true;
+                else
+                  player.GetComponent<TutorialManager>().enabled = false;
             }
         }
         if(m_FadeIn) {
