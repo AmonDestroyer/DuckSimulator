@@ -17,7 +17,7 @@ public class Portal : MonoBehaviour
     void Start() {
       anySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
       m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
-      m_playerController.jumpNum = 2;
+      m_playerController.jumpNum = 4;
       m_playerController.enableFire = true;
       m_playerController.sprintSpeed = 0.4f;
 
