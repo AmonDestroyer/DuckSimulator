@@ -13,6 +13,7 @@ progress as we built out the game.
 | :-------: |
 |[Proof of Concept](https://play.unity.com/mg/other/duck-simulator-poc)|
 |[Alpha](https://play.unity.com/mg/other/duck-simulator-alpha)|
+|[Beta](https://play.unity.com/mg/other/duck-simulator-beta-1)|
 
 
 ## Story
@@ -44,4 +45,5 @@ As a life long gamer and more recently programmer, I'm enjoying this opportunity
 
 ## Gameplay Designer: Jay Taylor
 ![Gameplay Designer: Jay Taylor](/Assets/Images/Team/jay.jpg "Jay Taylor")
+
 I've always wanted to try my hand at video game design! While the project our group has undertaken certainly is ambitious, I appreciate the challenges it's pushed us through, and I feel like I've grown a lot as both a coder and a game designer.
