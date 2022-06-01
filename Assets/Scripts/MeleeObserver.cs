@@ -29,12 +29,12 @@ public class MeleeObserver : Observer
         if(target.tag == "Player") {
             GameObject player = target.gameObject;
             PlayerController player_controller = player.GetComponent<PlayerController>();
-            player_controller.ApplyDamage(0.05f);
+            player_controller.ApplyDamage(damage);
         }
         if(target.tag == "Enemy") {
             GameObject enemy = target.gameObject;
             EnemyBase enemy_base = enemy.GetComponent<EnemyBase>();
-            enemy_base.ApplyDamage(0.2f);
+            enemy_base.ApplyDamage(damage);
         }
         //EnemyBase scriptInstance = target.GetComponent<EnemyBase>();
         //scriptInstance.ApplyDamage(this.damage);
