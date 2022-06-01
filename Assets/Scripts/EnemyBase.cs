@@ -59,6 +59,9 @@ public class EnemyBase : MonoBehaviour
 
         enemyStaminaCharger = new EnemyStaminaCharger(gameObject, rechargeStep, rechargeDelay, initialRechargeDelay);
         StartCoroutine(enemyStaminaCharger.startRegen());
+
+        // Start the enemies looking around 
+        StartCoroutine("LookingAroundCoroutine");
     }
 
     // Update is called once per frame
@@ -144,6 +147,7 @@ public class EnemyBase : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
         rb.AddForce(Vector3.up * 1f, ForceMode.Impulse);
+        ActivateIdle(); // otherwise player keeps walking in air after death
         if(this.transform.position.y > 420){ //deactivate enemy when they get high to lower overhead
             this.gameObject.SetActive(false);
         }
