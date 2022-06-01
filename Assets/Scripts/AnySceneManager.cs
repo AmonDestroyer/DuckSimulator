@@ -26,22 +26,31 @@ public class AnySceneManager : MonoBehaviour
     private bool m_ActivatePlayer;
     private float m_Timer;
     private float m_LoadProgress;
+    public int m_FirstScene = 1;
     public int m_NewScene;
     public int m_CurrentScene;
-
+    
     public bool debug = false;
 
 
     void Awake() {
         anySceneManager = this;
-        player.SetActive(false);
-        ui_interface.SetActive(false);
-        camera.SetActive(false);
-        SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive); // main menu load
+        if(m_FirstScene != 1) { // usefulf for debugging
+            m_ActivatePlayer = true;
+            player.SetActive(true);
+            ui_interface.SetActive(true);
+            camera.SetActive(true);
+        } else {
+            m_ActivatePlayer = false;
+            player.SetActive(false);
+            ui_interface.SetActive(false);
+            camera.SetActive(false);
+        }
+        SceneManager.LoadSceneAsync(m_FirstScene, LoadSceneMode.Additive); // main menu load
         m_FadeOut = false;
         m_LoadScene = false;
         m_FadeIn = false;
-        m_ActivatePlayer = false;
+        
         m_LoadProgress = 0.0f;
         Cursor.lockState = CursorLockMode.None;
     }
