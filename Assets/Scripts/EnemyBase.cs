@@ -7,7 +7,7 @@ public class EnemyBase : MonoBehaviour
     public float enemySpeed = 8.4f;
     public float enemyLookSpeed = 1.8f;
     public float approachRadius = 175.0f;
-    public float stopRadius = 1f; // want stop radius to be less than attack radius
+    public float stopRadius = 5f; // want stop radius to be less than attack radius
     public bool debug = false;
     public float health = 1.0f;
 
