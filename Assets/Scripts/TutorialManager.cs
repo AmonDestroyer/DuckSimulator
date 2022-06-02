@@ -127,7 +127,7 @@ public class TutorialManager : MonoBehaviour
     {
       Debug.Log("Enabling Melee");
       locationText.text = "Melee " + "\n" +
-      "A melee can be performed by looking at an enemy and pressing Left Mouse Button.";
+      "A melee can be performed by looking at an enemy and pressing Right Mouse Button.";
       SetEnableVariables();
     }
 
