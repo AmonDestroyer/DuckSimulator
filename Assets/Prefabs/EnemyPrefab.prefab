@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 601640886341462055}
   - component: {fileID: 601640886341462050}
   - component: {fileID: 601640886341462049}
-  - component: {fileID: 601640886341462048}
+  - component: {fileID: 1223758403204828114}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Enemy
@@ -65,7 +65,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7, y: 3.6, z: 0.6}
   m_Center: {x: 0, y: 1.8, z: 0}
---- !u!114 &601640886341462048
+--- !u!114 &1223758403204828114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,14 +74,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 601640886341462054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b21322b5460448499e3913146b9d4b9, type: 3}
+  m_Script: {fileID: 11500000, guid: d7a901d5e2a2e6343ab78bac5259973d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpeed: 4.2
-  enemyLookSpeed: 1.5
+  enemySpeed: 8.4
+  enemyLookSpeed: 1.8
   approachRadius: 175
-  stopRadius: 0
+  stopRadius: 1
+  debug: 0
   health: 1
+  overrideScale: 0
   attackRadius: 10
   damage: 0.05
   meleeForce: 15

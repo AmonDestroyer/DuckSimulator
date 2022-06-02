@@ -8,14 +8,13 @@ public class EnemyBase : MonoBehaviour
     public float enemyLookSpeed = 1.8f;
     public float approachRadius = 175.0f;
     public float stopRadius = 1f; // want stop radius to be less than attack radius
-    private bool m_HuntStarted = false;
     public bool debug = false;
     public float health = 1.0f;
 
     // for giving enemies more flavorful stats
     public bool overrideScale = false;
-    private float m_Scale;
-    struct StatCaps { // yes, I know this is overkill rn; might make stuff easier later (after the final build but still)
+    protected float m_Scale;
+    public struct StatCaps { // yes, I know this is overkill rn; might make stuff easier later (after the final build but still)
         
         public (float, float) healthCaps; // more health if bigger; less if smaller
         public (float, float) speedCaps; // little guys go faster; big guys go slower
@@ -35,17 +34,16 @@ public class EnemyBase : MonoBehaviour
         }
     };
 
-    StatCaps EnemyStatCaps = new StatCaps((0.6f, 10f), (12f, 4f), (0.02f, 0.2f), (5f, 40f), (2.1f, 1.3f), (.5f, .9f));
+    protected StatCaps EnemyStatCaps = new StatCaps((0.6f, 10f), (12f, 4f), (0.02f, 0.2f), (5f, 40f), (2.1f, 1.3f), (.5f, .9f));
     // SECTION FOR ENEMY MELEE
     public float attackRadius = 10.0f; //NOTE: if the enemy has a melee, its range will also be affected
     // by the size of the enemyMeleeScope. 'attackRadius' determines the radius in which a enemy 'tries'
     // to attack the player, not the radius in which it will do damage. 
     public float damage = 0.05f;
     public float meleeForce = 15.0f;
-    private MeleeScope enemyMeleeScope;
-    private MeleeObserver enemyMeleeObserver;
-    private Transform m_Foot1; // used for an improved distance calculation
-    
+    protected MeleeScope enemyMeleeScope;
+    protected MeleeObserver enemyMeleeObserver;
+    protected bool m_TakenDamage = false;
     //SECTION FOR ENEMY STAMINA
     EnemyStaminaCharger enemyStaminaCharger;
     public float stamina = 1.0f;
@@ -54,25 +52,24 @@ public class EnemyBase : MonoBehaviour
     public float rechargeStep = 0.5f;
     public float attackStaminaCost = 0.9f;
     public bool attacking = false;
-    private int countAttacks = 0;
+    protected int countAttacks = 0;
 
 
 
     //SECTION FOR ENEMY ANIMATIONS
     public int startPosition = 3; // sets the enemies starting position, 3 = Sitting, 5 = Walk
-    private Animator m_ani; // see readMe in simple modular human package for more options
-    bool m_walkActivated = false;
-    bool m_lookAlternator = true;
-    bool m_isLooking = false; // USE THIS TO PREVENT CALLING MULTIPLE COROUTINES!
+    protected Animator m_ani; // see readMe in simple modular human package for more options
+    protected bool m_walkActivated = false;
+    protected bool m_lookAlternator = true;
+    protected bool m_isLooking = false; // USE THIS TO PREVENT CALLING MULTIPLE COROUTINES!
 
 
 
-    GameObject player;
+    protected GameObject player;
 
     // Start is called before the first frame update
     public virtual void Start()
     {
-        m_Foot1 = transform.Find("Custom simple human_prefab_test/Custom simple human_prefab/simple_custom_human/Bone/Bone.005/Bone.010/Bone.014/Bone.017");
         m_Scale = transform.localScale.x;
         if(!overrideScale) {
             InterpolateStats();
@@ -108,63 +105,8 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    protected void FollowAndAttackPlayer()
-    { 
-        Vector3 distanceVector = player.transform.position - this.transform.position;
-        float distanceUnrooted = Vector3.Dot(distanceVector, distanceVector);
-        if(debug)
-            Debug.Log($"distanceVector:{distanceUnrooted}");
-        // I omit the square root part of the distance equation to reduce overhead
-        if(distanceUnrooted < approachRadius && distanceUnrooted > stopRadius){ 
-            if(!m_HuntStarted) {
-                approachRadius = approachRadius * 4f; // once player has been spotted, it gets HARD to run away
-                m_HuntStarted = true;
-            } 
-            if(m_isLooking){
-                StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
-                StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
-
-                m_isLooking = false;
-            }
-
-            ActivateWalk();
-            m_walkActivated = true;
-
-            float step =  enemySpeed * Time.fixedDeltaTime;
-            float rotateStep = enemyLookSpeed * Time.fixedDeltaTime;
-            RotateTowardsPlayer(rotateStep); // used seperate method here in case we want
-            // ranged enemies that don't move and just rotate at some point
-            this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, step);
-
-            
-
-        } else if(m_walkActivated){
-            if(m_HuntStarted) {
-                approachRadius = approachRadius / 4f; // if player DOES get away, approachRadius goes back to normal
-                m_HuntStarted = false;
-            } 
-            ActivateIdle();
-            Debug.Log("Activating Idle");
-            m_walkActivated = false;
-            if(!m_isLooking){
-                StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
-                StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
-                
-                StartCoroutine("LookingAroundCoroutine");
-                m_isLooking = true;
-            }
-            
-        }
-        // ENEMY ATTACK GOES HERE
-        if(distanceUnrooted < attackRadius && this.stamina > attackStaminaCost){    
-            Debug.Log("ENEMY ATTACKED!");
-            Debug.Log("TEST: Stamina value = " + this.stamina + ", attackStaminaCost = " + attackStaminaCost + " # of attacks = " + countAttacks);         
-            Attack();
-            ActivateHit();
-            attacking = true;
-            this.stamina -= attackStaminaCost;
-            ++countAttacks;
-        }
+    protected virtual void FollowAndAttackPlayer() {
+        
     }
 
     protected void RotateTowardsPlayer(float step){
@@ -176,13 +118,17 @@ public class EnemyBase : MonoBehaviour
          
     }
 
-    void Attack(){
+    protected void Attack(){
         enemyMeleeObserver.sourceColliders = enemyMeleeScope.getTriggerList();
         enemyMeleeObserver.CollisionCheck();
     }
 
     public void ApplyDamage(float damage){
         health -= damage;
+        if(!m_TakenDamage) {
+            approachRadius = approachRadius * 4; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
+            m_TakenDamage = true;
+        }
     }
 
     void Dead(){ // call this when health < 0
@@ -204,17 +150,17 @@ public class EnemyBase : MonoBehaviour
         rechargeStep = Mathf.Lerp(EnemyStatCaps.rechargeStepCaps.Item1, EnemyStatCaps.rechargeStepCaps.Item2, m_Scale/5);
     }
 
-    void ActivateWalk(){
+    protected void ActivateWalk(){
         m_ani.SetInteger("arms", 1); // this sets the arms animation to setting 1 - walk
         m_ani.SetInteger("legs", 1); // see the readMe in the simple modular human package
     }
 
-    void ActivateIdle(){
+    protected void ActivateIdle(){
         m_ani.SetInteger("arms", 5);
         m_ani.SetInteger("legs", 5);
     }
 
-    void ActivateHit(){
+    protected void ActivateHit(){
         m_ani.SetInteger("arms", 14);
     }
 
