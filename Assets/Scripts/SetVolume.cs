@@ -4,27 +4,27 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class SetVolume : MonoBehaviour // Attach to any persistent 
+public class SetVolume : MonoBehaviour // Attach to any persistent
 {
     public GameObject VolumeSliderGO; // drag and drop volume slider from menu into this box!
-    private Slider m_VolumeSlider; // 
+    private Slider m_VolumeSlider; //
     private AudioSource[] m_Sounds;
 
     void Start()
-    {   
+    {
         m_VolumeSlider = VolumeSliderGO.GetComponent<Slider>();
         // SET THE VOLUME SLIDERS VALUE TO SAVED VALUE IN PlayerPrefs class
         m_VolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.75f); // 0.75f parameter is default value in case
         //The player has not set the "MasterVolume" in PlayerPrefs yet
         //Adds a listener to the main slider and invokes a method when the value changes.
-		
+
 
         // GET ALL AUDIO SOURCES FROM THIS SCENE
-        // below code taken from a helpful Unity thread 
+        // below code taken from a helpful Unity thread
         // https://forum.unity.com/threads/find-all-gameobjects-in-a-scene-by-tag-and-access-the-audio-source-on-them.445374/
         var temp = GameObject.FindGameObjectsWithTag("SoundSource");
         m_Sounds = new AudioSource[temp.Length];
- 
+
         for (int i = 0; i < m_Sounds.Length; i++) {
             m_Sounds[i] = temp[i].GetComponent<AudioSource>();
         }
@@ -38,11 +38,12 @@ public class SetVolume : MonoBehaviour // Attach to any persistent
 
     void SetSourceVolumes(float volumeFactor){
         for (int i = 0; i < m_Sounds.Length; i++) {
-            m_Sounds[i].volume *= volumeFactor;
+            m_Sounds[i].volume = volumeFactor;
         }
     }
 
     void ValueChangeCheck(){
+        Debug.Log($"Chanding value {m_VolumeSlider.value}");
         PlayerPrefs.SetFloat("MasterVolume", m_VolumeSlider.value);
         SetSourceVolumes(PlayerPrefs.GetFloat("MasterVolume", 0.75f));
     }
