@@ -26,6 +26,7 @@ public class Projectile : MonoBehaviour
         m_longDespawnTimer = 0.0f;
         m_rigid = GetComponent<Rigidbody>();
         m_initialRotation = transform.rotation;
+        FindObjectOfType<AudioManager>().Play("BowShoot");
     }
     // Update is called once per frame
     void Update()
@@ -49,7 +50,7 @@ public class Projectile : MonoBehaviour
         target = other.gameObject;
         Debug.Log($"{target}");
         if(target.CompareTag(targetTag) && (m_despawnTimer < 0.2f)) { // only works if enemy is hit FIRST (or within small range of error)!
-            Hit(); // do a damage effect 
+            Hit(); // do a damage effect
             Destroy(this.gameObject); // then delete projectile
         }
         if (target.CompareTag("Ground")) { // checks for ground positioning
@@ -66,6 +67,7 @@ public class Projectile : MonoBehaviour
     void Hit() { // currently does hit; will do more later!
         hit_script = target.GetComponent<EnemyBase>();
         hit_script.ApplyDamage(0.2f);
+        FindObjectOfType<AudioManager>().Play("BowHit");
         Debug.Log($"Feather hit {targetTag}!");
     }
 };

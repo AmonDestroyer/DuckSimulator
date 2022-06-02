@@ -41,16 +41,18 @@ public class MainMenuController : MonoBehaviour
     void LaunchTutorial()
     {
       m_AnySceneManager.TransitionScene(2, 1);
+      FindObjectOfType<AudioManager>().Play("ButtonClick");
     }
 
     void NewGame()
     {
       m_AnySceneManager.TransitionScene(3, 1);
+      FindObjectOfType<AudioManager>().Play("ButtonClick");
     }
 
     void Options()
     {
-      //Arbirary class used for when the options menu is selected
+      FindObjectOfType<AudioManager>().Play("ButtonClick");
     }
 
 }

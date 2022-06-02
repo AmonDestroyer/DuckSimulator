@@ -23,11 +23,15 @@ public class SetVolume : MonoBehaviour // Attach to any persistent
         // below code taken from a helpful Unity thread
         // https://forum.unity.com/threads/find-all-gameobjects-in-a-scene-by-tag-and-access-the-audio-source-on-them.445374/
         var temp = GameObject.FindGameObjectsWithTag("SoundSource");
-        m_Sounds = new AudioSource[temp.Length];
+        List<AudioSource> m_SoundsList = new List<AudioSource>();
 
-        for (int i = 0; i < m_Sounds.Length; i++) {
-            m_Sounds[i] = temp[i].GetComponent<AudioSource>();
+        for (int i = 0; i < temp.Length; i++) {
+            foreach(AudioSource audioS in temp[i].GetComponents<AudioSource>())
+            {
+              m_SoundsList.Add(audioS);
+            }
         }
+        m_Sounds = m_SoundsList.ToArray();
         // START BY SETTING AudioSource VOLUMES TO WHATEVER'S BEEN SAVED IN PlayerPrefs or Default value
         SetSourceVolumes(PlayerPrefs.GetFloat("MasterVolume", 0.75f));
 
