@@ -71,6 +71,7 @@ public class EnemyMelee : EnemyBase
             this.stamina -= attackStaminaCost;
             ++countAttacks;
             m_StaminaTimer = 0.0f;
+            enemySpeed = enemySpeedBase;
         } else if (distanceUnrooted > attackRadius && distanceUnrooted < approachRadius && stamina == 1.0f){
             if(!m_StaminaTimerFull) {
                 m_StaminaTimer += Time.fixedDeltaTime;
