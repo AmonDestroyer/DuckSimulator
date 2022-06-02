@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 663042487}
   - component: {fileID: 663042488}
+  - component: {fileID: 663042489}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: sceneManager
@@ -178,10 +179,24 @@ MonoBehaviour:
   ui_interface: {fileID: 1676200087}
   camera: {fileID: 1071856422}
   fadeDuration: 1
-  m_FirstScene: 4
+  m_FirstScene: 1
   m_NewScene: 0
   m_CurrentScene: 0
   debug: 0
+  SliderObject: {fileID: 1699132889}
+--- !u!114 &663042489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663042485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eaf52dba7d9b2b47ad36bfa5d9ec0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VolumeSliderGO: {fileID: 1699132889}
 --- !u!1 &1067881824 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7195390855630895626, guid: 09f0161acc2099f458758a954651a26f, type: 3}
@@ -328,6 +343,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7981630879838438247, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
   m_PrefabInstance: {fileID: 1874184255}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1699132889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5378595900944187508, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+  m_PrefabInstance: {fileID: 1874184255}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1874184255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -335,6 +355,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4482797028879694732, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5130568405208487906, guid: 5c29e014a7afb7a47848d5a7d456577e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

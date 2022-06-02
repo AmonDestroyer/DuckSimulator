@@ -15,6 +15,7 @@ TagManager:
   - Water
   - Secret
   - sceneManager
+  - SoundSource
   layers:
   - Default
   - TransparentFX
