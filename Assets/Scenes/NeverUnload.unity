@@ -401,7 +401,7 @@ MonoBehaviour:
   ui_interface: {fileID: 1676200087}
   camera: {fileID: 1071856422}
   fadeDuration: 1
-  m_FirstScene: 4
+  m_FirstScene: 1
   m_NewScene: 0
   m_CurrentScene: 0
   debug: 0

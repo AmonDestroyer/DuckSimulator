@@ -16,6 +16,7 @@ public class AnySceneManager : MonoBehaviour
     public GameObject player;
     public GameObject ui_interface;
     public GameObject camera;
+    public List<int> portals;
 
     public float fadeDuration = 2f; //Controls fade in and out duration.
 
@@ -36,6 +37,7 @@ public class AnySceneManager : MonoBehaviour
 
 
     void Awake() {
+        portals = new List<int>();
         anySceneManager = this;
         if(m_FirstScene != 1) { // usefulf for debugging
             m_ActivatePlayer = true;

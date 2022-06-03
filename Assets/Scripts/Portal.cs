@@ -12,9 +12,7 @@ public class Portal : MonoBehaviour
     private PlayerController m_playerController;
     public AnySceneManager anySceneManager;
 
-
-
-    void Start() {
+    void Awake() {
       anySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager)) as AnySceneManager;
       m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
       m_playerController.jumpNum = 4;
@@ -22,6 +20,12 @@ public class Portal : MonoBehaviour
       m_playerController.sprintSpeed = 0.4f;
 
       m_playerController.stdTime();
+    }
+
+    void Start() {
+      if(anySceneManager.portals.Contains(newScene)) {
+          gameObject.SetActive(false);
+      }
     }
 
     void OnUpdate(){
@@ -32,6 +36,7 @@ public class Portal : MonoBehaviour
       //Loads the appropraite scene when the player touches the portal
       if(other.gameObject.CompareTag("Player")) {
         anySceneManager.TransitionScene(newScene, currentScene);
+        anySceneManager.portals.Add(newScene);
       }
     }
 

@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour
     public int jumpNum = 2;
     public float glideMulti = 0.3f;
     public float terminalVelocity = -75.0f;
-    public float shootDamage = 1.4f;
-    public float meleeDamage = 0.7f;
-    public float meleeForce = 15.0f;
+    public float shootDamage = 2.5f;
+    public float meleeDamage = 1.5f;
+    public float meleeForce = 20.0f;
     public bool enableFire = true;
     public PlayerInput playerInput;
     public GameObject meleeScope;
@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
         m_Ejaculator.cock = m_ProjectileOrigin;
         m_Ejaculator.sperm = projectile;
         m_Ejaculator.shaft = m_ProjectileAnchor;
-        m_PlayerMeleeObserver.targetRange = 5.0f;
+        m_PlayerMeleeObserver.targetRange = 10.0f;
         m_PlayerMeleeObserver.targetTag = "Enemy";
         m_PlayerMeleeObserver.sourceTransform = GetComponent<Transform>();
 

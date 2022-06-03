@@ -10,11 +10,14 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI locationText;
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
+    public GameObject hunter;
 
     // Private Variables
     private PlayerController m_playerController;
+    private EnemyBase m_HunterScript;
     private float m_CompletionTimer = 0f;
     private float m_Timer = 0f;
+    private bool m_justSpawned = true;
     private bool m_RemoveText=false;
     private bool m_EnableText=false;
     private bool m_Completed=false;
@@ -30,7 +33,7 @@ public class TutorialManager : MonoBehaviour
         m_AnySceneManager = GameObject.FindGameObjectWithTag("sceneManager").GetComponentInChildren(typeof(AnySceneManager), true) as AnySceneManager;
       }
       //MainManager = FindObjectOfType<NeverUnloadSceneManager>();
-
+      
       //Player initial variables
       m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
       m_playerController.jumpNum = 0;
@@ -39,7 +42,9 @@ public class TutorialManager : MonoBehaviour
       m_playerController.spawnPoint = GameObject.Find("StartSpawnPoint").transform;
       m_playerController.Respawn();
       m_playerController.stdTime();
-
+      
+      //For enabling/disabling hunter's shooting
+      m_HunterScript = hunter.GetComponentInChildren<EnemyBase>() as EnemyBase;
       //Set Instructions
       locationText = GameObject.Find("InstructionText").GetComponentInChildren<TextMeshProUGUI>();
       locationText.text = "Use WASD to move" + "\n" + "Use Mouse to look";
@@ -113,6 +118,13 @@ public class TutorialManager : MonoBehaviour
       m_RemoveText = true;
     }
 
+    void EnterStage() {
+      locationText.text = "Welcome to Duck Simulator!" + "\n" +
+      "To begin, go collect that feather over there." + "\n" +
+      "Move using WASD.";
+      SetEnableVariables();
+    }
+
     // Functions that are done at various checkpoints for the tutorial
     void EnableJump()
     {
@@ -127,15 +139,21 @@ public class TutorialManager : MonoBehaviour
     {
       Debug.Log("Enabling Melee");
       locationText.text = "Melee " + "\n" +
-      "A melee can be performed by looking at an enemy and pressing Right Mouse Button.";
+      "A melee can be performed by looking at an enemy and pressing Right Mouse Button.\n" +
+      "When you kill an enemy, they get to go to heaven :)" + "\n" +
+      "You also get health if they're close to you when they die.";
       SetEnableVariables();
     }
 
     void EnableSprint()
     {
+
       m_playerController.sprintSpeed = 0.4f;
       locationText.text = "Sprinting" + "\n" +
-      "Use SHIFT to sprint so you can dodge.";
+      "Use SHIFT to sprint so you can dodge. \n" +
+      "BLUE means the hunter sees you - RED means\n" +
+      "he's about to shoot!";
+      m_HunterScript.approachRadius = 500f;
       SetEnableVariables();
     }
 
@@ -145,6 +163,7 @@ public class TutorialManager : MonoBehaviour
       locationText.text = "Bow" + "\n" +
       "The is a weapon that can be used to fire arrows at enemies using " +
       "Left Mouse Button.";
+      m_HunterScript.approachRadius = 0f;
       SetEnableVariables();
     }
 
@@ -173,6 +192,12 @@ public class TutorialManager : MonoBehaviour
       {
         case "MovementWaypoint":
           DisableMoveText();
+          break;
+        case "StartSpawnPoint":
+          if(m_justSpawned) {
+            m_justSpawned = false;
+            EnterStage();
+          }
           break;
         case "SecretArea":
           other.gameObject.SetActive(false);
