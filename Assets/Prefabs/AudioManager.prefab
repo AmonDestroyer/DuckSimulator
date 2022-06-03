@@ -219,6 +219,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f44b7e61091c6024b8253330c3aac901, type: 3}
     pitch: 1
     source: {fileID: 0}
+  - name: EnemyBoss
+    clip: {fileID: 8300000, guid: 5fb3e07735d919d499ced1c00a72153c, type: 3}
+    pitch: 1
+    source: {fileID: 0}
   backgroundMusic:
   - name: Tack1
     clip: {fileID: 8300000, guid: cd9b080cba89e3344a93ea925ba6047b, type: 3}
@@ -239,5 +243,9 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Run
     clip: {fileID: 8300000, guid: eb2dca470435e5a4ca560209f62d0a9e, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: Falling
+    clip: {fileID: 8300000, guid: 3b413a5c677f4794381ff4104ee05a31, type: 3}
     pitch: 1
     source: {fileID: 0}

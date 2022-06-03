@@ -79,7 +79,7 @@ public abstract class EnemyBase : MonoBehaviour
             partnerScript = partner.GetComponentInChildren<EnemyBase>();
         }
         m_Scale = transform.localScale.x;
-        if(m_Scale >= 3.0f) {
+        if(m_Scale >= 2.9f) {
             isBoss = true;
         }
         if(!overrideScale) {
