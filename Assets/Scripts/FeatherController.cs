@@ -24,7 +24,7 @@ public class FeatherController : MonoBehaviour
             // make feather dissapear
             this.gameObject.SetActive(false);
             // update feather count in HUD
-            hudController.featherCount = hudController.featherCount + 1;
+            hudController.m_FeatherCount = hudController.m_FeatherCount + 1;
             hudController.SetCountText();
         }
     }

@@ -33,9 +33,6 @@ public class AnySceneManager : MonoBehaviour
     
     public bool debug = false;
 
-    //VOLUME SLIDE VARIABLE TO SET VOLUME SLIDE UPON SCENE CHANGE
-    public GameObject SliderObject;
-    private Slider m_VolumeSlider;
 
 
     void Awake() {
@@ -59,8 +56,6 @@ public class AnySceneManager : MonoBehaviour
         m_LoadProgress = 0.0f;
         Cursor.lockState = CursorLockMode.None;
 
-        //VOLUME SLIDER 
-        m_VolumeSlider = SliderObject.GetComponent<Slider>();
     }
 
     void FixedUpdate() {
@@ -125,9 +120,6 @@ public class AnySceneManager : MonoBehaviour
         m_NewScene = newScene;
         m_CurrentScene = currentScene;
         m_FadeOut = true;
-
-        //VOLUME SLIDER - BELOW MAINTAINS SLIDER VALUE FROM SCENE TO SCENE
-        m_VolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0.75f);
     }
 
     void UnloadScene(int scene) {
