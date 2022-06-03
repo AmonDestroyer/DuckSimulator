@@ -16,6 +16,7 @@ TagManager:
   - Secret
   - sceneManager
   - SoundSource
+  - Won
   layers:
   - Default
   - TransparentFX

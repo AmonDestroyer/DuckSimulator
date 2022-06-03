@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     // https://medium.com/swlh/game-dev-how-to-make-health-bars-in-unity-from-beginner-to-advanced-9a1d728d0cbf
     public float health = 1.0f; // 1 = 100 % full, .5 = 50%, etc...
     public Image healthBar;
+    //For Player GameEnding, including Death and Won
+    public GameObject gameEndingObject;
+    private GameEnding m_GameEnding;
 
     public float jumpHeight = 10.0f;
     public float walkSpeed = 0.2f;
@@ -128,6 +131,9 @@ public class PlayerController : MonoBehaviour
         //Getting Menu Canvas
         m_ExitMenu = GameObject.Find("ExitMenu").GetComponent<Canvas>();
         m_HUD = GameObject.Find("HUD").GetComponent<Canvas>();
+
+        //Get Player GameEnding Script
+        m_GameEnding = gameEndingObject.GetComponent<GameEnding>();
     }
 
     void OnMove(InputValue movementValue)
@@ -392,6 +398,11 @@ public class PlayerController : MonoBehaviour
         // in practice you wouldn't need to call UpdateHealth(); every frame,
         // you only need to call it after you modify the 'health' variable
         // e.g. when your player takes damage.
+
+        //Player Death and GameEnding
+        if(health <= 0.0f){
+            m_GameEnding.playerDied = true;
+        }
     }
 
     void OnCollisionEnter(Collision other) {
@@ -406,6 +417,14 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("Respawn")){
           spawnPoint = other.gameObject.transform;
           other.gameObject.SetActive(false);
+        }
+        
+    }
+
+    void OnTriggerEnter (Collider other)
+    {
+        if(other.gameObject.CompareTag("Won")){
+            m_GameEnding.playerWon = true;
         }
     }
 
