@@ -178,6 +178,7 @@ public class PlayerController : MonoBehaviour
     void MeleeAction() {
         m_PlayerMeleeObserver.sourceColliders = m_PlayerMeleeScope.getTriggerList();
         m_PlayerMeleeObserver.CollisionCheck();
+        FindObjectOfType<AudioManager>().Play("Melee");
     }
 
     void FireAction() {
@@ -301,10 +302,14 @@ public class PlayerController : MonoBehaviour
 
         if(isGlide == true) {
             // for glide; might put elsewhere later on
+            FindObjectOfType<AudioManager>().LoopPlay("Falling");
             gravOpposite =  (((player.velocity.y) * (gravityStrength * player.mass))  / ((gravityStrength) * glideMulti)) * -1.0f;
             Vector3 glide = new Vector3(0.0f, gravOpposite, 0.0f);
             player.AddForce(glide, ForceMode.Force);
         }
+
+        if (jumpCurrent == 0 || !isGlide)
+            FindObjectOfType<AudioManager>().Stop("Falling");
 
         if(isSprintPressed && isCrouchPressed && !isGlide) {
             if(powerSlideTimer <= powerSlideTimerMax) { // power slide!
@@ -316,10 +321,13 @@ public class PlayerController : MonoBehaviour
             }
         } else if(isSprintPressed == true && isGlide == false) {
             player.MovePosition(player.position + movement * sprintSpeed);
+            FindObjectOfType<AudioManager>().ChangePitch("Walk", 1.5f);
         } else if(isCrouchPressed == true && isGlide == false) {
             player.MovePosition(player.position + movement * crouchSpeed);
+            FindObjectOfType<AudioManager>().ChangePitch("Walk", 0.8f);
         } else {
             player.MovePosition(player.position + movement * walkSpeed);
+            FindObjectOfType<AudioManager>().ChangePitch("Walk", 1);
         }
         if(m_charge && enableFire) {
             if(m_LMBpress_max > m_LMBpress) {
@@ -350,6 +358,11 @@ public class PlayerController : MonoBehaviour
         bool moving = (movementY > 0) || (movementX > 0);
         if(moving)
         {
+            if (jumpCurrent == 0)
+                FindObjectOfType<AudioManager>().LoopPlay("Walk");
+            else
+                FindObjectOfType<AudioManager>().Stop("Walk");
+
             if(isSprintPressed == true) {
                 m_Animator.SetBool("Walk", !moving);
                 m_Animator.SetBool("Run", moving);
@@ -362,6 +375,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<AudioManager>().Stop("Walk");
             m_Animator.SetBool("Walk", moving);
             m_Animator.SetBool("Run", moving);
         }
@@ -386,6 +400,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Touched the ground!");
         }
         if(other.gameObject.CompareTag("Death")){
+            FindObjectOfType<AudioManager>().Play("PlayerDeath");
             player.position = spawnPoint.position;
         }
         if(other.gameObject.CompareTag("Respawn")){
@@ -401,6 +416,12 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyDamage(float damage){
         health -= damage;
+        string sound;
+        if (Random.Range(0.0f, 1.0f) > 0.5f)
+          sound = "PlayerHurt1";
+        else
+          sound = "PlayerHurt2";
+        FindObjectOfType<AudioManager>().Play(sound);
         UpdateHealth();
     }
 

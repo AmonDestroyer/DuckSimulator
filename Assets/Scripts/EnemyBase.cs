@@ -12,10 +12,11 @@ public class EnemyBase : MonoBehaviour
     public float health = 1.0f;
 
     // for giving enemies more flavorful stats
+    private bool deathSoundPlayed = false;
     public bool overrideScale = false;
     protected float m_Scale;
     public struct StatCaps { // yes, I know this is overkill rn; might make stuff easier later (after the final build but still)
-        
+
         public (float, float) healthCaps; // more health if bigger; less if smaller
         public (float, float) speedCaps; // little guys go faster; big guys go slower
         public (float, float) damageCaps; // more damage if bigger; less if smaller
@@ -38,7 +39,7 @@ public class EnemyBase : MonoBehaviour
     // SECTION FOR ENEMY MELEE
     public float attackRadius = 10.0f; //NOTE: if the enemy has a melee, its range will also be affected
     // by the size of the enemyMeleeScope. 'attackRadius' determines the radius in which a enemy 'tries'
-    // to attack the player, not the radius in which it will do damage. 
+    // to attack the player, not the radius in which it will do damage.
     public float damage = 0.05f;
     public float meleeForce = 15.0f;
     protected MeleeScope enemyMeleeScope;
@@ -91,13 +92,13 @@ public class EnemyBase : MonoBehaviour
         enemyStaminaCharger = new EnemyStaminaCharger(gameObject, rechargeStep, rechargeDelay, initialRechargeDelay);
         StartCoroutine(enemyStaminaCharger.startRegen());
 
-        // Start the enemies looking around 
+        // Start the enemies looking around
         StartCoroutine("LookingAroundCoroutine");
     }
 
     // Update is called once per frame
     public virtual void FixedUpdate()
-    {   
+    {
         if(health > 0.0f){
             FollowAndAttackPlayer();
         } else{
@@ -106,16 +107,16 @@ public class EnemyBase : MonoBehaviour
     }
 
     protected virtual void FollowAndAttackPlayer() {
-        
+
     }
 
     protected void RotateTowardsPlayer(float step){
-        
+
          Vector3 targetDirection = (player.transform.position - this.transform.position);
          Vector3 newDirection = Vector3.RotateTowards(this.transform.forward, targetDirection, step, 0.0f);
          newDirection.y = 0; //this prevents enemy from flipping around because they want to loop up/down
          this.transform.rotation = Quaternion.LookRotation(newDirection);
-         
+
     }
 
     protected void Attack(){
@@ -125,6 +126,8 @@ public class EnemyBase : MonoBehaviour
 
     public void ApplyDamage(float damage){
         health -= damage;
+        FindObjectOfType<AudioManager>().Play("EnemyHurt");
+        FindObjectOfType<AudioManager>().ChangePitch("EnemyHurt", Random.Range(0.9f, 1.5f));
         if(!m_TakenDamage) {
             approachRadius = approachRadius * 4; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
             m_TakenDamage = true;
@@ -132,6 +135,11 @@ public class EnemyBase : MonoBehaviour
     }
 
     void Dead(){ // call this when health < 0
+        if (!deathSoundPlayed)
+        {
+          FindObjectOfType<AudioManager>().Play("EnemyDeath");
+          deathSoundPlayed = true;
+        }
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
         rb.AddForce(Vector3.up * 1f, ForceMode.Impulse);
@@ -185,7 +193,7 @@ public class EnemyBase : MonoBehaviour
 
         if(m_isLooking){
             StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
-            StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
+            StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances
             m_isLooking = false;
         }
 
@@ -193,7 +201,7 @@ public class EnemyBase : MonoBehaviour
             StartCoroutine("LookingAroundCoroutine");
             m_isLooking = true;
         }
-        
+
 
     }
 

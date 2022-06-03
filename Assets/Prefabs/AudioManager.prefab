@@ -185,32 +185,59 @@ MonoBehaviour:
   sounds:
   - name: BowShoot
     clip: {fileID: 8300000, guid: bf386046dd88d354f8043fee4ecbaeca, type: 3}
-    volume: 0
-    pitch: 0
+    pitch: 1
     source: {fileID: 0}
   - name: BowHit
     clip: {fileID: 8300000, guid: 4424ba71d33a859488463258920ceb6c, type: 3}
-    volume: 0
-    pitch: 0
+    pitch: 1
     source: {fileID: 0}
   - name: ButtonClick
     clip: {fileID: 8300000, guid: d2913f5ca8972534dba96fa43df45c63, type: 3}
-    volume: 0
-    pitch: 0
+    pitch: 1
+    source: {fileID: 0}
+  - name: PlayerHurt1
+    clip: {fileID: 8300000, guid: 1da21ae3578221d4a82416c0e7034ba7, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: PlayerHurt2
+    clip: {fileID: 8300000, guid: a712bb2e9d324e94ea3f5f64d36fd650, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: PlayerDeath
+    clip: {fileID: 8300000, guid: 9897d9cf28ad22645818917e18d57e43, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: Melee
+    clip: {fileID: 8300000, guid: 4140b7be42b22874bb0850dac3de84f9, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: EnemyHurt
+    clip: {fileID: 8300000, guid: ee6c2d9f3a7ca174abf595c585e72150, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: EnemyDeath
+    clip: {fileID: 8300000, guid: f44b7e61091c6024b8253330c3aac901, type: 3}
+    pitch: 1
     source: {fileID: 0}
   backgroundMusic:
   - name: Tack1
     clip: {fileID: 8300000, guid: cd9b080cba89e3344a93ea925ba6047b, type: 3}
-    volume: 0
-    pitch: 0
+    pitch: 1
     source: {fileID: 0}
   - name: Track2
     clip: {fileID: 8300000, guid: 6fcb151c7be0d0549874cf652a189d70, type: 3}
-    volume: 0
-    pitch: 0
+    pitch: 1
     source: {fileID: 0}
   - name: Track3
     clip: {fileID: 8300000, guid: 5b9158c0dee540b46b0ab62784647b11, type: 3}
-    volume: 0
-    pitch: 0
+    pitch: 1
+    source: {fileID: 0}
+  loopingSounds:
+  - name: Walk
+    clip: {fileID: 8300000, guid: 622372af3452422468b202a7dfdb0d2e, type: 3}
+    pitch: 1
+    source: {fileID: 0}
+  - name: Run
+    clip: {fileID: 8300000, guid: eb2dca470435e5a4ca560209f62d0a9e, type: 3}
+    pitch: 1
     source: {fileID: 0}
