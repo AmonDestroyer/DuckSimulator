@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour
+public abstract class EnemyBase : MonoBehaviour
 {
     public float enemySpeed = 8.4f;
     public float enemyLookSpeed = 1.8f;
     public float approachRadius = 175.0f;
-    public float stopRadius = 5f; // want stop radius to be less than attack radius
+    public float stopRadius = 10f; // want stop radius to be less than attack radius
     public bool debug = false;
     public float health = 1.0f;
+    public GameObject partner; // another enemy; if one gets attacked, partners can be dragged into the fight
 
     // for giving enemies more flavorful stats
     protected bool m_ResetVelocity = false;
@@ -102,14 +103,12 @@ public class EnemyBase : MonoBehaviour
     {
         if(health > 0.0f){
             FollowAndAttackPlayer();
-        } else{
+        } else {
             Dead();
         }
     }
 
-    protected virtual void FollowAndAttackPlayer() {
-
-    }
+    protected abstract void FollowAndAttackPlayer();
 
     protected void RotateTowardsPlayer(float step) {
          Vector3 targetDirection = (player.transform.position - this.transform.position);
@@ -119,27 +118,15 @@ public class EnemyBase : MonoBehaviour
 
     }
 
-    protected void Attack(){
-        enemyMeleeObserver.sourceColliders = enemyMeleeScope.getTriggerList();
-        enemyMeleeObserver.CollisionCheck();
-    }
+    protected abstract void Attack();
 
-    public void ApplyDamage(float damage){
-        m_ResetVelocity = true;
-        health -= damage;
-        FindObjectOfType<AudioManager>().Play("EnemyHurt");
-        FindObjectOfType<AudioManager>().ChangePitch("EnemyHurt", Random.Range(0.9f, 1.5f));
-        if(!m_TakenDamage) {
-            approachRadius = approachRadius * 8; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
-            m_TakenDamage = true;
-        }
-    }
+    public abstract void ApplyDamage(float damage);
 
     void Dead(){ // call this when health < 0
         if (!deathSoundPlayed)
         {
           FindObjectOfType<AudioManager>().Play("EnemyDeath");
-          deathSoundPlayed = true;  
+          deathSoundPlayed = true;
         }
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
@@ -173,7 +160,7 @@ public class EnemyBase : MonoBehaviour
         m_ani.SetInteger("arms", 14);
     }
 
-    void SetStartingPosition(){
+    void SetStartingPosition() {
         m_ani.SetInteger("arms", startPosition);
         m_ani.SetInteger("legs", startPosition);
     }

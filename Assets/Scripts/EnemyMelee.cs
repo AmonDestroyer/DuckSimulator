@@ -12,11 +12,11 @@ public class EnemyMelee : EnemyBase
     private Vector3 m_PrevVel;
 
     // Update is called once per frame
-        void Start() {
+    void Start() {
             base.Start();
             enemySpeedBase = enemySpeed;
         }
-        protected override void FollowAndAttackPlayer()
+    protected override void FollowAndAttackPlayer()
         { 
         Vector3 distanceVector = player.transform.position - this.transform.position;
         float distanceUnrooted = Vector3.Dot(distanceVector, distanceVector);
@@ -102,6 +102,21 @@ public class EnemyMelee : EnemyBase
                 }
                 m_StaminaTimerFull = true;
             }
+        }
+    }
+    protected override void Attack() {
+        enemyMeleeObserver.sourceColliders = enemyMeleeScope.getTriggerList();
+        enemyMeleeObserver.CollisionCheck();
+    }
+
+    public override void ApplyDamage(float damage){
+        m_ResetVelocity = true;
+        health -= damage;
+        FindObjectOfType<AudioManager>().Play("EnemyHurt");
+        FindObjectOfType<AudioManager>().ChangePitch("EnemyHurt", Random.Range(0.9f, 1.5f));
+        if(!m_TakenDamage) {
+            approachRadius = approachRadius * 8; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
+            m_TakenDamage = true;
         }
     }
 }

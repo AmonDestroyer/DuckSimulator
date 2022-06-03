@@ -11,5 +11,11 @@ public class LookOnlyEnemy : EnemyBase
     {
      RotateTowardsPlayer(localEnemyLookSpeed * Time.fixedDeltaTime);   
     }
+    protected override void FollowAndAttackPlayer() {}
+    protected override void Attack() {}
+
+    public override void ApplyDamage(float damage){
+        Debug.Log($"{damage}");
+    }
 
 }

@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        m_LayerMask = LayerMask.GetMask("Default");
         jumpAction = playerInput.currentActionMap["Jump"];
         fireAction = playerInput.currentActionMap["Fire"];
         sprintAction = playerInput.currentActionMap["Sprint"];
