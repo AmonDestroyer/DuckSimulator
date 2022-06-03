@@ -39,6 +39,7 @@ public class GameEnding : MonoBehaviour
         if(m_Timer > fadeDuration + displayImageDuration)
         {   
             playerDied = false; //reset for next death
+            m_Timer = 0;
             // respawn player at last spawn point and refill health
             m_PlayerController.Respawn();
             m_PlayerController.health = 1.0f;
