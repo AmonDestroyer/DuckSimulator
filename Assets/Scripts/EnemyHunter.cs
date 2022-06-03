@@ -16,8 +16,9 @@ public class EnemyHunter : EnemyBase
 
     void Start() {
         base.Start();
+        ActivateIdle();
         m_LaserRenderer = GetComponentInChildren(typeof(LaserScript)) as LaserScript;
-        attackStaminaCost = 0.9f;
+        attackStaminaCost = 0.8f;
         rechargeStep = 0.1f;
         m_HunterOrigin = transform.Find("HunterOrigin");
         approachRadius = approachRadius * 8; // hunters see further
@@ -30,6 +31,7 @@ public class EnemyHunter : EnemyBase
         if(distanceUnrooted < approachRadius) {
             if(!m_HuntStarted) {
                 approachRadius = approachRadius * 2f; // once player has been spotted, it gets HARD to run away
+                Debug.Log("Hunt started!");
                 m_HuntStarted = true;
             } 
             if(m_isLooking){
@@ -48,15 +50,19 @@ public class EnemyHunter : EnemyBase
             // ranged enemies that don't move and just rotate at some point
             //this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, step);
             if(this.stamina > attackStaminaCost) {
+                Vector3 OriginVector = player.transform.position - m_HunterOrigin.position;
                 ActivateHit(); // put those hands in the AIR babyy
                 if(m_UpdateRay) {
-                    Ray hunterRay = new Ray(m_HunterOrigin.position, player.transform.position);
+                    Ray hunterRay = new Ray(m_HunterOrigin.position, OriginVector);
                     RaycastHit hunterRaycastHit;
                     if(Physics.Raycast(hunterRay, out hunterRaycastHit, approachRadius)) {
+                        Debug.Log($"Hit {hunterRaycastHit.collider.name}!");
                         if(player.transform == hunterRaycastHit.collider.transform) {
+                            Debug.Log("Hit player transform!");
                             m_LaserRenderer.laserMaxLength = approachRadius;
                             m_LaserRenderer.triggerLaser = true;
                             m_ShotTimer += Time.fixedDeltaTime;
+                            Debug.Log($"ShotTimer = {m_ShotTimer}");
                             if(m_ShotTimer > 1.5f) { // about to shoot!
                                 m_LaserRenderer.ChangeColor(Color.white);
                             }
