@@ -22,6 +22,11 @@ public class EnemyMelee : EnemyBase
         float distanceUnrooted = Vector3.Dot(distanceVector, distanceVector);
         // I omit the square root part of the distance equation to reduce overhead
         if(distanceUnrooted < approachRadius && distanceUnrooted > stopRadius){ 
+            if (isBoss)
+            {
+                FindObjectOfType<AudioManager>().Play("EnemyBoss");
+                isBoss = false;
+            }
             if(!m_HuntStarted) {
                 approachRadius = approachRadius * 4f; // once player has been spotted, it gets HARD to run away
                 m_HuntStarted = true;

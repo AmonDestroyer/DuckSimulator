@@ -10,7 +10,7 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI locationText;
     public float fadeDuration = 1f; //Controls fade in and out duration.
     public float holdDuration = 5f; //Time to hold starting at fade in.
-    public GameObject hunter;
+    private GameObject hunter;
 
     // Private Variables
     private PlayerController m_playerController;
@@ -44,6 +44,7 @@ public class TutorialManager : MonoBehaviour
       m_playerController.stdTime();
       
       //For enabling/disabling hunter's shooting
+      hunter = GameObject.Find("DuckHunter");
       m_HunterScript = hunter.GetComponentInChildren<EnemyBase>() as EnemyBase;
       //Set Instructions
       locationText = GameObject.Find("InstructionText").GetComponentInChildren<TextMeshProUGUI>();

@@ -18,6 +18,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected bool deathSoundPlayed = false;
     public bool overrideScale = false;
     protected float m_Scale;
+    protected bool isBoss = false;
     public struct StatCaps { // yes, I know this is overkill rn; might make stuff easier later (after the final build but still)
 
         public (float, float) healthCaps; // more health if bigger; less if smaller
@@ -78,6 +79,9 @@ public abstract class EnemyBase : MonoBehaviour
             partnerScript = partner.GetComponentInChildren<EnemyBase>();
         }
         m_Scale = transform.localScale.x;
+        if(m_Scale >= 3.0f) {
+            isBoss = true;
+        }
         if(!overrideScale) {
             InterpolateStats();
         }
