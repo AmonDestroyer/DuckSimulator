@@ -9,6 +9,7 @@ public class EnemyMelee : EnemyBase
     private bool m_StaminaTimerFull = false;
     private bool m_HuntStarted = false;
     private float enemySpeedBase;
+    private Vector3 m_PrevVel;
 
     // Update is called once per frame
         void Start() {
@@ -24,8 +25,8 @@ public class EnemyMelee : EnemyBase
             if(!m_HuntStarted) {
                 approachRadius = approachRadius * 4f; // once player has been spotted, it gets HARD to run away
                 m_HuntStarted = true;
-            } 
-            if(m_isLooking){
+            }
+            if(m_isLooking) {
                 StopCoroutine("LookingAroundCoroutine"); // double StopCoroutine to work around bug where multiple StartCoroutines
                 StopCoroutine("LookingAroundCoroutine"); // are called creating multiple instances 
 
@@ -40,10 +41,14 @@ public class EnemyMelee : EnemyBase
             RotateTowardsPlayer(rotateStep); // used seperate method here in case we want
             // ranged enemies that don't move and just rotate at some point
             this.transform.position = Vector3.MoveTowards(this.transform.position, player.transform.position, step);
-
+            if(m_ResetVelocity) {
+                gameObject.GetComponent<Rigidbody>().velocity = m_PrevVel;
+                m_ResetVelocity = false;
+            }
+            m_PrevVel = gameObject.GetComponent<Rigidbody>().velocity;
             
 
-        } else if(m_walkActivated){
+        } else if(m_walkActivated) {
             if(m_HuntStarted) {
                 approachRadius = approachRadius / 4f; // if player DOES get away, approachRadius goes back to normal
                 m_HuntStarted = false;
@@ -62,7 +67,7 @@ public class EnemyMelee : EnemyBase
             
         }
         // ENEMY ATTACK GOES HERE
-        if(distanceUnrooted < attackRadius && this.stamina > attackStaminaCost){    
+        if(distanceUnrooted < attackRadius && this.stamina > attackStaminaCost) {    
             Debug.Log("ENEMY ATTACKED!");
             Debug.Log("TEST: Stamina value = " + this.stamina + ", attackStaminaCost = " + attackStaminaCost + " # of attacks = " + countAttacks);         
             Attack();

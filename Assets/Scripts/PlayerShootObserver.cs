@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerShootObserver : Observer
 {
+    public GameObject projectile;
+    public Transform origin;
+
     public override Ray CreateRay() {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3 (0.5f, 0.5f, 0));
         return ray;
@@ -17,4 +20,7 @@ public class PlayerShootObserver : Observer
         // implement force you want to apply to enemy when they get shot here
     }
     
+    public void FireProjectile() {
+        
+    } 
 }

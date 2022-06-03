@@ -23,20 +23,23 @@ public class PlayerController : MonoBehaviour
     public float crouchSpeed = 0.1f;
     public float gravityStrength = -25.0f; // GRAVITY IS CURRENTLY UNIVERSAL; BE CAREFUL
     public int jumpNum = 2;
-    public float glideMulti = 0.1f;
+    public float glideMulti = 0.3f;
     public float terminalVelocity = -75.0f;
+    public float shootDamage = 1.4f;
     public float meleeDamage = 0.7f;
-    public float meleeForce = 42.0f;
+    public float meleeForce = 15.0f;
     public bool enableFire = true;
     public PlayerInput playerInput;
     public GameObject meleeScope;
     public Transform startSpawnPoint; // default spawn point
-    public GameObject projectile;
+    public float shootRange = 300f;
+    public Vector3 target;
 
     private static GameObject sampleInstance;
     private Rigidbody player;
     private Animator m_Animator;
     public Transform spawnPoint;
+    public GameObject projectile;
     private Transform m_ProjectileOrigin;
     private Transform m_ProjectileAnchor;
     // movement variables
@@ -66,14 +69,16 @@ public class PlayerController : MonoBehaviour
     private MeleeScope m_PlayerMeleeScope;
     private Ejaculator m_Ejaculator;
     // for linear interpolation shots (i.e. charge shots)
-    private float m_Firepower_lower = 500f;
-    private float m_Firepower_upper = 2000f;
+    private float m_Firepower_lower = 0.25f;
+    private float m_Firepower_upper = 1.0f;
     private float m_LMBpress_max = 1.0f;
     private float m_LMBpress = 0.0f;
     private bool m_charge = false;
     private float m_chargeResetTime = 0.0f;
     private float m_chargeResetTimeMax = 1.0f;
     private bool resetSlider = false;
+    private int m_LayerMask;
+    private float m_FireDelay = 0.0f;
     // UI Update items
     private Slider m_slider;
 
@@ -188,8 +193,16 @@ public class PlayerController : MonoBehaviour
     }
 
     void FireAction() {
-        m_Ejaculator.SetVelocity(Mathf.Lerp(m_Firepower_lower, m_Firepower_upper, (m_LMBpress/m_LMBpress_max)));
-        m_Ejaculator.Ejaculate();
+        float lerp = Mathf.Lerp(m_Firepower_lower, m_Firepower_upper, m_LMBpress/m_LMBpress_max);
+        m_Ejaculator.SetVelocity(lerp * 1000f);
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3 (0.5f, 0.5f, 0));
+        RaycastHit temp_RaycastHit;
+        if(Physics.Raycast(ray, out temp_RaycastHit, shootRange, m_LayerMask)) {
+            target = temp_RaycastHit.point;
+        } else {
+            target = ray.GetPoint(shootRange);
+        }
+        m_Ejaculator.Ejaculate(lerp*shootDamage, target);
     }
 
     void OnJump()
@@ -211,16 +224,23 @@ public class PlayerController : MonoBehaviour
     // END JUMP functions
     void OnFire() {
         //filler function - currently attached to LMB
+        bool wasStarted = false;
         fireAction.started += context => {
-            m_LMBpress = 0.0f;
-            m_charge = true;
-            resetSlider = false;
-            m_chargeResetTime = 0.0f;
+            if(m_FireDelay <= 0.0f) {
+                m_LMBpress = 0.0f;
+                m_charge = true;
+                resetSlider = false;
+                m_chargeResetTime = 0.0f;
+                wasStarted = true;
+            }
         };
         fireAction.canceled += context => {
-            resetSlider = true;
-            m_charge = false;
-            doFire = true;
+            if(m_FireDelay <= 0.0f && wasStarted == true) {
+                resetSlider = true;
+                m_charge = false;
+                doFire = true;
+                wasStarted = false;
+            }
         };
     }
 
@@ -347,6 +367,11 @@ public class PlayerController : MonoBehaviour
         if(doFire && enableFire) {
             FireAction();
             doFire = false;
+            m_FireDelay = 0.2f;
+        }
+        if(m_FireDelay > 0.0f) {
+            Debug.Log($"{m_FireDelay}");
+            m_FireDelay -= Time.fixedDeltaTime;
         }
         if(doMelee) {
             MeleeAction();

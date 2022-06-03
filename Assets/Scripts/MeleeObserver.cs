@@ -9,7 +9,7 @@ public class MeleeObserver : Observer
     GameObject self; // object of origin
 
 
-    public MeleeObserver(GameObject thisGameObject, float meleeForce, float damage){
+    public MeleeObserver(GameObject thisGameObject, float meleeForce, float damage) {
         this.meleeForce = meleeForce;
         this.self = thisGameObject;
         this.damage = damage;

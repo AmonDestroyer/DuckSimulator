@@ -10,29 +10,23 @@ public class Ejaculator: MonoBehaviour
     public float ejaculateVelocity = 1000f; // velocity
 
     void Update() { // constantly adjusts position of aiming anchors
+        //FOLLOW METHOD
         Vector3 forward_shaft = new Vector3(shaft.forward.x, 0.0f, shaft.forward.z); // calculates where to place cock
-        cock.position = shaft.position + shaft.forward * 1.0f; // places cock in front of object
-        // VESTIGIAL CODE
-        //Vector3 rotation_axis = Vector3.Cross(shaft.forward, Vector3.up);
-        //Debug.Log($"{shaft.forward}; {rotation_axis}");
-        //float shaft_angle = shaft.localEulerAngles.x;
+        //cock.position = shaft.position + shaft.forward * 1.0f; // places cock in front of object
         
-        //Debug.Log($"{rotation_axis}");
-        //cock.RotateAround(shaft.position, rotation_axis, 100f * Time.deltaTime);
-        //Debug.Log($"Position Changes: shaft: {shaft.position}; cock: {cock.position}. Rotation Changes: shaft: {shaft.localEulerAngles}; cock: {cock.localEulerAngles}");
-        //Debug.Log($"Rotation Changes: shaft: {shaft.localEulerAngles}; cock: {cock.localEulerAngles}");
-        //Debug.Log($"{shaft_angle}, {rotation_axis}, {forward_shaft}");
-        //Debug.Log($"{pump}");
-        //Vector3 true_forward = Quaternion.AngleAxis(0.0f, rotation_axis) * shaft.forward;
-        
+        cock.position = shaft.position + Vector3.up + forward_shaft;
     }
 
-    public void Ejaculate() {  // fires objects
+    public void Ejaculate(float damage, Vector3 target) {  // fires objects
         Quaternion semen_rotation = sperm.transform.rotation; // takes rotation of object (already adjusted manually)
-        Vector3 direction =  cock.position - shaft.position; // calculates direction of launch and...
-        direction.Normalize();                               // turns into a direction vector
+        //Vector3 direction =  cock.position - shaft.position; // calculates direction of launch and...
+        //direction.Normalize();                               // turns into a direction vector
+        Vector3 direction = Vector3.up;
         GameObject semen = Instantiate(sperm, cock.position, semen_rotation); // makes a projectile object
-        semen.GetComponent<Rigidbody>().AddForce(ejaculateVelocity * direction); // launches projectile along trajectory
+        semen.GetComponent<Rigidbody>().AddForce(500f * direction); // launches projectile along trajectory
+        Projectile semenControl = semen.GetComponent<Projectile>();
+        semenControl.speed = ejaculateVelocity;
+        semenControl.targetPosition = target;
     }
 
     public void SetVelocity(float new_velocity) { // new velocity for firing things

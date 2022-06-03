@@ -37,10 +37,10 @@ public class AudioManager : MonoBehaviour
 
         foreach (Sound ls in loopingSounds)
         {
-          ls.source = gameObject.AddComponent<AudioSource>();
-          ls.source.clip = ls.clip;
-          ls.source.pitch = ls.pitch;
-          ls.source.loop = true;
+            ls.source = gameObject.AddComponent<AudioSource>();
+            ls.source.clip = ls.clip;
+            ls.source.pitch = ls.pitch;
+            ls.source.loop = true;
         }
     }
 

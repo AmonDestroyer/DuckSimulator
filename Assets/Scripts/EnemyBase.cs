@@ -12,7 +12,8 @@ public class EnemyBase : MonoBehaviour
     public float health = 1.0f;
 
     // for giving enemies more flavorful stats
-    private bool deathSoundPlayed = false;
+    protected bool m_ResetVelocity = false;
+    protected bool deathSoundPlayed = false;
     public bool overrideScale = false;
     protected float m_Scale;
     public struct StatCaps { // yes, I know this is overkill rn; might make stuff easier later (after the final build but still)
@@ -110,8 +111,7 @@ public class EnemyBase : MonoBehaviour
 
     }
 
-    protected void RotateTowardsPlayer(float step){
-
+    protected void RotateTowardsPlayer(float step) {
          Vector3 targetDirection = (player.transform.position - this.transform.position);
          Vector3 newDirection = Vector3.RotateTowards(this.transform.forward, targetDirection, step, 0.0f);
          newDirection.y = 0; //this prevents enemy from flipping around because they want to loop up/down
@@ -125,11 +125,12 @@ public class EnemyBase : MonoBehaviour
     }
 
     public void ApplyDamage(float damage){
+        m_ResetVelocity = true;
         health -= damage;
         FindObjectOfType<AudioManager>().Play("EnemyHurt");
         FindObjectOfType<AudioManager>().ChangePitch("EnemyHurt", Random.Range(0.9f, 1.5f));
         if(!m_TakenDamage) {
-            approachRadius = approachRadius * 4; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
+            approachRadius = approachRadius * 8; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
             m_TakenDamage = true;
         }
     }
@@ -138,7 +139,7 @@ public class EnemyBase : MonoBehaviour
         if (!deathSoundPlayed)
         {
           FindObjectOfType<AudioManager>().Play("EnemyDeath");
-          deathSoundPlayed = true;
+          deathSoundPlayed = true;  
         }
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
