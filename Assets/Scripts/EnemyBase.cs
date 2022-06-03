@@ -11,8 +11,9 @@ public abstract class EnemyBase : MonoBehaviour
     public bool debug = false;
     public float health = 1.0f;
     public GameObject partner; // another enemy; if one gets attacked, partners can be dragged into the fight
-
+    
     // for giving enemies more flavorful stats
+    protected EnemyBase partnerScript;
     protected bool m_ResetVelocity = false;
     protected bool deathSoundPlayed = false;
     public bool overrideScale = false;
@@ -73,6 +74,9 @@ public abstract class EnemyBase : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
+        if(partner != null) {
+            partnerScript = partner.GetComponentInChildren<EnemyBase>();
+        }
         m_Scale = transform.localScale.x;
         if(!overrideScale) {
             InterpolateStats();

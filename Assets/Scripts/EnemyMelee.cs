@@ -115,6 +115,9 @@ public class EnemyMelee : EnemyBase
         FindObjectOfType<AudioManager>().Play("EnemyHurt");
         FindObjectOfType<AudioManager>().ChangePitch("EnemyHurt", Random.Range(0.9f, 1.5f));
         if(!m_TakenDamage) {
+            if(partner != null) {
+                partnerScript.approachRadius = approachRadius * 8; // call in a partner
+            }
             approachRadius = approachRadius * 8; // if the enemy has been hit, it will not stop pursuing the player; IT WANTS BLOOD
             m_TakenDamage = true;
         }

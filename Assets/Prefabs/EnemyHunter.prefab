@@ -210,7 +210,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserLineRenderer: {fileID: 8540386466823522614}
-  laserWidth: 0.1
+  origin: {fileID: 0}
+  target: {fileID: 0}
+  laserWidth: 0.5
   laserMaxLength: 5
   triggerLaser: 0
 --- !u!1 &2552598838375167101
